@@ -15,14 +15,13 @@ export const Header = () => {
   };
 
   return (
-    <header className="z-[999] relative items-center justify-center text-center ">
+    <header className="z-[999] relative flex flex-row justify-center space-x-10  ">
       <motion.div
-        className="justify-center fixed top-0 left-1/2 h-[4.5rem] -traslate-x-1/2 w-full
-          rounded-xl border border-black border-l-4 border-b-4 bg-white
-          bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
-          sm:top-6 sm:h-[3.5rem] sm:w-[60rem] sm:flex items-center space-x-32 font-bold "
-        initial={{ y: -100, x: "-85%", opacity: 0 }}
-        animate={{ y: 0, x: "-85%", opacity: 1 }}
+        className="flex justify-center items-center mt-6 h-[3.5rem] w-[60rem]
+        rounded-xl border border-black border-l-4 border-b-4 bg-white
+        bg-opacity-80 space-x-32 font-bold"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <p className="">Home</p>
@@ -31,9 +30,9 @@ export const Header = () => {
       </motion.div>
 
       <motion.div
-        className="flex justify-center fixed top-6 left-1/2 -translate-x-1/2 w-full"
-        initial={{ y: -100, x: "-30%", opacity: 0 }}
-        animate={{ y: 0, x: "-30%", opacity: 1 }}
+        className="flex justify-center mt-6"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="relative">
@@ -41,7 +40,7 @@ export const Header = () => {
             type="text"
             placeholder="Search..."
             className="pl-10 pr-4 w-96 h-[3.5rem] border border-black border-l-4 border-b-4 rounded-xl focus:outline-none focus:border-gray-800 bg-white
-      bg-opacity-80"
+      bg-opacity-80 " 
           />
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5"
@@ -59,7 +58,7 @@ export const Header = () => {
       </motion.div>
 
       <motion.button
-        className="flex fixed top-6 right-64 h-[3.5rem] translate-x-1/2 w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
+        className="flex mt-6 h-[3.5rem] w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
         border border-black border-l-4 border-b-4"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -90,8 +89,8 @@ export const Header = () => {
       href={"/profile"}
       >
         <motion.button
-          className="flex justify-center fixed top-6 right-28 h-[3.5rem] -traslate-x-1/2 w-32
-      rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
+          className="flex justify-center mt-6 h-[3.5rem] w-32
+          rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
