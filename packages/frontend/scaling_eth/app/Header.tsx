@@ -20,11 +20,15 @@ export const Header = () => {
         className="justify-center fixed top-0 left-1/2 h-[4.5rem] -traslate-x-1/2 w-full
           rounded-xl border border-black border-l-4 border-b-4 bg-white
           bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
-          sm:top-6 sm:h-[3.5rem] sm:w-[60rem] sm:flex"
+          sm:top-6 sm:h-[3.5rem] sm:w-[60rem] sm:flex items-center space-x-32 font-bold "
         initial={{ y: -100, x: "-85%", opacity: 0 }}
         animate={{ y: 0, x: "-85%", opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-      ></motion.div>
+      >
+        <p className="">Home</p>
+        <p className="">Contact Us</p>
+        <p className="">Create Your Design Stamp</p>
+      </motion.div>
 
       <motion.div
         className="flex justify-center fixed top-6 left-1/2 -translate-x-1/2 w-full"
@@ -54,7 +58,7 @@ export const Header = () => {
         </div>
       </motion.div>
 
-      <motion.div
+      <motion.button
         className="flex fixed top-6 right-64 h-[3.5rem] translate-x-1/2 w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
         border border-black border-l-4 border-b-4"
         initial={{ y: -100, opacity: 0 }}
@@ -62,7 +66,7 @@ export const Header = () => {
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <svg
-        className="h-6 w-6 m-2"
+          className="h-6 w-6 m-2"
           width="15px"
           height="15px"
           viewBox="0 0 24 24"
@@ -80,17 +84,21 @@ export const Header = () => {
             />
           </g>
         </svg>
-      </motion.div>
+      </motion.button>
 
-      <motion.div 
-      className="flex justify-center fixed top-6 right-28 h-[3.5rem] -traslate-x-1/2 w-32
-      rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
+      <Link
+      href={"/profile"}
       >
-        Profile
-      </motion.div>
+        <motion.button
+          className="flex justify-center fixed top-6 right-28 h-[3.5rem] -traslate-x-1/2 w-32
+      rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          Profile
+        </motion.button>
+      </Link>
     </header>
   );
 };
