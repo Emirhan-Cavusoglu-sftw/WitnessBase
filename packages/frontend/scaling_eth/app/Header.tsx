@@ -19,14 +19,36 @@ export const Header = () => {
       <motion.div
         className="flex justify-center items-center mt-6 h-[3.5rem] w-[60rem]
         rounded-xl border border-black border-l-4 border-b-4 bg-white
-        bg-opacity-80 space-x-32 font-bold"
+        bg-opacity-80 space-x-32 font-bold max-sm:w-[40rem] "
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <p className="">Home</p>
-        <p className="">Contact Us</p>
-        <p className="">Create Your Design Stamp</p>
+        <Link href={"/"}>
+          <p
+            className={
+              pathname === "/"
+                ? "text-[#93A6EB]"
+                : "text-black"
+            }
+          >
+            Home
+          </p>
+        </Link>
+        <Link href={"/contactUs"}>
+          <p className={
+              pathname === "/contactUs"
+                ? "text-[#93A6EB]"
+                : "text-black"
+            }>Contact Us</p>
+        </Link>
+        <Link href={"/createYourDesignStamp"}>
+          <p className={
+              pathname === "/createYourDesignStamp"
+                ? "text-[#93A6EB]"
+                : "text-black"
+            }>Create Your Design Stamp</p>
+        </Link>
       </motion.div>
 
       <motion.div
@@ -40,7 +62,7 @@ export const Header = () => {
             type="text"
             placeholder="Search..."
             className="pl-10 pr-4 w-96 h-[3.5rem] border border-black border-l-4 border-b-4 rounded-xl focus:outline-none focus:border-gray-800 bg-white
-      bg-opacity-80 " 
+      bg-opacity-80 "
           />
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5"
@@ -85,12 +107,13 @@ export const Header = () => {
         </svg>
       </motion.button>
 
-      <Link
-      href={"/profile"}
-      >
+      <Link href={"/profile"}>
         <motion.button
-          className="flex justify-center mt-6 h-[3.5rem] w-32
-          rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
+          className={
+            pathname === "/profile"  
+              ? " flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-[#93A6EB] text-center items-center font-bold border border-black border-l-4 border-b-4"
+              : " flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+          }
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
