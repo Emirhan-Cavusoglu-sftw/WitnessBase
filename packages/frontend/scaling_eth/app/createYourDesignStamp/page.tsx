@@ -29,11 +29,11 @@ const CreateYourDesignStamp = () => {
         <label htmlFor="file" className="cursor-pointer">
           <div className="border-2 border-black w-[700px] h-[700px] flex items-center justify-center flex-col space-y-5">
             {preview ? (
-              <div className="w-80 h-80 flex items-center justify-center">
+              <div className="w-full h-80 flex items-center justify-center">
                 {file.type === "application/pdf" ? (
                   <p className="text-3xl">PDF</p>
                 ) : (
-                  <img src={preview} alt="Preview" className="w-full h-full" />
+                  <img src={preview} alt="Preview" className="w-[500px] h-80" />
                 )}
               </div>
             ) : (
