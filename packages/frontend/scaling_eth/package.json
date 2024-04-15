@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "tsx index.ts",
+    "test": "tsx app/utils/index.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
