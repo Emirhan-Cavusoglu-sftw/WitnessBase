@@ -2,7 +2,7 @@
   "name": "scaling_eth",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  
   "scripts": {
     "test": "tsc -w ./app/utils/index.ts",
     "testt": "tsx ./app/utils/index.ts",
