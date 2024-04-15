@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "tsx index.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -11,6 +12,8 @@
   "dependencies": {
     "framer-motion": "^11.0.25",
     "next": "14.1.4",
+    "permissionless": "^0.1.16",
+    "viem": "^2.0.6",
     "react": "^18",
     "react-dom": "^18"
   },
