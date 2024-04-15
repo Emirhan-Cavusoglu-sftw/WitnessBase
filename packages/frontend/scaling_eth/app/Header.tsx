@@ -18,7 +18,7 @@ export const Header = () => {
     <header className="z-[999] relative items-center justify-center text-center ">
       <motion.div
         className="justify-center fixed top-0 left-1/2 h-[4.5rem] -traslate-x-1/2 w-full
-          rounded-xl border border-white border-opacity-40 bg-white
+          rounded-xl border border-black border-l-4 border-b-4 bg-white
           bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem]
           sm:top-6 sm:h-[3.5rem] sm:w-[60rem] sm:flex"
         initial={{ y: -100, x: "-85%", opacity: 0 }}
@@ -36,7 +36,7 @@ export const Header = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="pl-10 pr-4 w-96 h-[3.5rem] border border-gray-300 rounded-xl focus:outline-none focus:border-gray-800 bg-white
+            className="pl-10 pr-4 w-96 h-[3.5rem] border border-black border-l-4 border-b-4 rounded-xl focus:outline-none focus:border-gray-800 bg-white
       bg-opacity-80"
           />
           <svg
@@ -55,7 +55,8 @@ export const Header = () => {
       </motion.div>
 
       <motion.div
-        className="flex fixed top-6 right-64 h-[3.5rem] translate-x-1/2 w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center"
+        className="flex fixed top-6 right-64 h-[3.5rem] translate-x-1/2 w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
+        border border-black border-l-4 border-b-4"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -83,7 +84,11 @@ export const Header = () => {
 
       <motion.div 
       className="flex justify-center fixed top-6 right-28 h-[3.5rem] -traslate-x-1/2 w-32
-      rounded-xl bg-white bg-opacity-80 text-black text-center items-center">
+      rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4 "
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+      >
         Profile
       </motion.div>
     </header>
