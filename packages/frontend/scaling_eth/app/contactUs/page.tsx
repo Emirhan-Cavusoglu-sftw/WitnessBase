@@ -24,12 +24,15 @@ import {
   createPublicClient,
   encodeFunctionData,
   http,
+  parseEther,
+  getContract
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { gnosisChiado } from "viem/chains";
 import { accountABI, accountFactoryABI } from "../utils/constants";
 import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
+import { m } from "framer-motion";
 const endpointUrl =
   "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
 
@@ -43,25 +46,15 @@ const publicClient = createPublicClient({
 });
 
 const bundlerClient = createClient({
-	transport: http(endpointUrl),
-	chain: gnosisChiado,
-})
-	.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
-	.extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07))
- 
-const paymasterClient = createClient({
-	transport: http(endpointUrl),
-	chain: gnosisChiado,
-}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07))
-// const paymasterClient = createPimlicoPaymasterClient({
-//   transport: http(endpointUrl),
-//   entryPoint: ENTRYPOINT_ADDRESS_V07,
-// });
+  chain: gnosisChiado,
+  transport: http(endpointUrl),
+}).extend(bundlerActions(ENTRYPOINT_ADDRESS_V07)).extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07));
 
-// const bundlerClient = createPimlicoBundlerClient({
-//   transport: http(endpointUrl),
-//   entryPoint: ENTRYPOINT_ADDRESS_V07,
-// });
+const paymasterClient = createClient({
+  transport: http(endpointUrl),
+  chain: gnosisChiado,
+}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07));
+
 
 const factory = AF_ADDRESS;
 
@@ -77,11 +70,7 @@ const callData = encodeFunctionData({
 });
 
 const contactUs = async () => {
-  // console.log("callData", callData);
-  // console.log("owner address:", owner.address);
-  // console.log("Generated factoryData:", factoryData);
-  // console.log("Generated wallet with private key:", ownerPrivateKey);
-  // console.log("Sender Address:", senderAddress);
+  
 
   const getGasPrice = async () => {
     const gasPrice = await bundlerClient.getUserOperationGasPrice();
@@ -95,113 +84,38 @@ const contactUs = async () => {
     });
     return senderAddress;
   };
-  // const userOperation = await (async () => {
-  
 
-  //   return {
-  //     sender: await calculateSenderAddress(),
-  //     nonce: BigInt("0"),
-  //     factory: factory as Address,
-  //     factoryData,
-  //     callData,
-  //     maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas) + BigInt(1000000000),
-  //     maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas) + BigInt(1000000000),
-  //     paymasterVerificationGasLimit: BigInt(1000000),
-  //     signature: "0x" as Hex,
-  //   };
-  // })();
+
 
   const executeUserOperation = async () => {
-    // const sponsorUserOperationResult = await paymasterClient.sponsorUserOperation({
-    //   userOperation,
-    // })
-
-    // const sponsoredUserOperation: UserOperation<"v0.7"> = {
-    //   ...userOperation,
-    //   ...sponsorUserOperationResult,
-    // }
-const gasPrice = await getGasPrice();
-    // console.log("Received paymaster sponsor result:", paymasterClient.account)
-
-    // console.log("Received paymaster sponsor result:", sponsorUserOperationResult)
-
-    const {callGasLimit, verificationGasLimit,preVerificationGas,} = await bundlerClient.estimateUserOperationGas({
-      userOperation: {
-          sender: await calculateSenderAddress(),
-          nonce: BigInt("0"),
-          
-          initCode: factoryData,
-          callData: callData,
-          callGasLimit: gasPrice.fast.maxFeePerGas,
-          maxPriorityFeePerGas: gasPrice.fast.maxPriorityFeePerGas,
-          paymasterAndData: "0x",
-          signature: "0x",
-        },
-        
-      
-  })
+    
+    
+    const gasPrice = await getGasPrice();
+    
     const userOperationHash = await bundlerClient.sendUserOperation({
-      
       userOperation: {
-        sender: await calculateSenderAddress(),
-        nonce: BigInt("0"),
-        factory: factory as Address,
-        factoryData,
+        sender: "0xdabebe1f35842cd865b49d601f672ebd873b216e",
+        nonce: BigInt("2"),
         callData,
-        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas) 
-      ,
-        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas) 
-      ,
+        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         paymasterVerificationGasLimit: BigInt(1000000),
         signature: "0x" as Hex,
-        callGasLimit: callGasLimit,
-        verificationGasLimit: verificationGasLimit,
-        preVerificationGas: preVerificationGas,
+        callGasLimit: BigInt(1_000_000),
+        verificationGasLimit: BigInt(1_000_000),
+        preVerificationGas:BigInt(1_000_000),
       },
-
-      entryPoint: ENTRYPOINT_ADDRESS_V07,
-     
-      
-    })
+    });
 
     console.log("Received User Operation hash:" + userOperationHash);
 
     console.log("Querying for receipts...");
     const receipt = await bundlerClient.waitForUserOperationReceipt({
       hash: userOperationHash,
-    })
-    
-    
-    const txHash = receipt.receipt.transactionHash
+    });
 
-    // FARKLI DENEME BURASIIIIIIIIIIIIIII
-    // const account = await privateKeyToSimpleSmartAccount(publicClient, {
-    //   privateKey: ownerPrivateKey,
-    //   entryPoint: ENTRYPOINT_ADDRESS_V07, // global entrypoint
-    //   factoryAddress: "0x5F49Cf21273563a628F31cd08C1D4Ada7722aB58",
-    // });
+    const txHash = receipt.receipt.transactionHash;
 
-    // const smartAccountClient = createSmartAccountClient({
-    //   account,
-    //   entryPoint: ENTRYPOINT_ADDRESS_V07,
-    //   chain: gnosisChiado,
-    //   bundlerTransport: http(endpointUrl),
-    //   middleware: {
-    //     gasPrice: async () => {
-    //       return (await bundlerClient.getUserOperationGasPrice()).fast;
-    //     },
-    //     sponsorUserOperation: paymasterClient.sponsorUserOperation,
-    //   },
-    // });
-
-    // const txHash = await smartAccountClient.sendTransaction({
-    //   to: account.address,
-    //   data: encodeFunctionData({
-    //     abi: accountABI,
-    //     functionName: "increment",
-    //     args: [],
-    //   }),
-    // });
 
     console.log(`UserOperation included: ${txHash}`);
   };
