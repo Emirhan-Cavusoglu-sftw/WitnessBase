@@ -2,7 +2,6 @@
   "name": "scaling_eth",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "test": "tsc -w ./app/utils/index.ts",
     "testt": "tsx ./app/utils/index.ts",
@@ -12,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^3.4.2",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.28",
     "next": "^14.2.1",
