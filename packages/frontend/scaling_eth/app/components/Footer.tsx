@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-transparent text-black py-4 fixed bottom-0 w-full">
       <div className="container mx-auto text-center flex flex-row justify-center space-x-3">
         <p>&copy; For All Time. Always... </p>
-        <Link href={"https://twitter.com/ITUBlockchainen"}>
+        <Link href={"https://twitter.com/ITUBlockchainen" }  target="_blank" rel="noopener noreferrer">
           <svg
             className="mt-1"
             width="20"
@@ -17,7 +17,7 @@ const Footer = () => {
             <path d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z" />
           </svg>
         </Link>
-        <Link href={"https://github.com/itublockchain/team-5"}>
+        <Link href={"https://github.com/itublockchain/team-5"}  target="_blank" rel="noopener noreferrer">
           <svg
             width="25px"
             height="25px"

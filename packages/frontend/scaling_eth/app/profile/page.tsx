@@ -3,10 +3,10 @@ import React from "react";
 import dynamic from "next/dynamic";
 import MyDocument from "../components/pdfviewer";
 
-// PDFDownloadLink'i dinamik olarak import ediyoruz
+
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-  { ssr: false } // Bu, bileşenin sadece client tarafında render edilmesini sağlar
+  { ssr: false }
 );
 
 const Profile = () => {
