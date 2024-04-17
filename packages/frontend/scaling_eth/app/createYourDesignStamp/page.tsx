@@ -13,7 +13,7 @@ const CreateYourDesignStamp = () => {
       setFile(selectedFile);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
+        setPreview(reader.result as string);
       };
       reader.readAsDataURL(selectedFile);
     }
