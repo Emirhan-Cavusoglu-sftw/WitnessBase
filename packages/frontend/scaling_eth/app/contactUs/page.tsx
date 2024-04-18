@@ -43,13 +43,11 @@ import {
   bundlerClient,
   factory,
   factoryData,
+  senderAddress,
+  entryPointContract,
 } from "../utils/helper";
 
-const entryPointContract = getContract({
-  address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-  abi: entryPointABI,
-  client: publicClient,
-});
+
 
 const contactUs = async () => {
   const [nonce, setNonce] = useState<BigInt>();
@@ -71,14 +69,7 @@ const contactUs = async () => {
     const gasPrice = await bundlerClient.getUserOperationGasPrice();
     return gasPrice;
   };
-  const calculateSenderAddress = async () => {
-    const senderAddress = await getSenderAddress(publicClient, {
-      factory,
-      factoryData,
-      entryPoint: ENTRYPOINT_ADDRESS_V07,
-    });
-    return senderAddress;
-  };
+  
 
   const getNonce = async () => {
     console.log(
@@ -91,15 +82,16 @@ const contactUs = async () => {
   }
 
   console.log("Nonce: " + nonce);
-
+  console.log("Sender Address" + senderAddress);
   const executeUserOperation = async () => {
     const gasPrice = await getGasPrice();
-   
+  //  0xDabEbE1f35842cD865B49d601F672eBd873b216E
     const userOperationHash = await bundlerClient.sendUserOperation({
       userOperation: {
-        sender: "0xDabEbE1f35842cD865B49d601F672eBd873b216E",
+        sender: senderAddress,
         nonce: nonce as BigInt,
-        callData,
+        initCode: `0x${factory+factoryData}`,
+        
         maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         paymasterVerificationGasLimit: BigInt(1000000),

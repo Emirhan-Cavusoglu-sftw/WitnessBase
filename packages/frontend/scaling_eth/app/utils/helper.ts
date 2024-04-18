@@ -27,7 +27,7 @@ import {
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { gnosisChiado } from "viem/chains";
-import { accountABI, accountFactoryABI } from "../utils/constants";
+import { accountABI, accountFactoryABI, entryPointABI } from "../utils/constants";
 import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
 
@@ -66,3 +66,18 @@ export const callData = encodeFunctionData({
   abi: accountABI,
   functionName: "increment",
 });
+
+export const senderAddress = await getSenderAddress(publicClient, {
+    factory,
+    factoryData,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+  });
+
+
+// Contracts
+
+export const entryPointContract = getContract({
+    address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+    abi: entryPointABI,
+    client: publicClient,
+  });
