@@ -89,7 +89,7 @@ const CreateYourDesignStamp = () => {
           className="shadow appearance-none border border-black border-l-4 border-b-4 rounded w-full h-44 py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
           id="description"
         ></textarea>
-        <button className="h-10 w-40 bg-[#93A6EB] rounded-lg text-center border border-black border-l-4 border-b-4 font-bold">
+        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border border-black border-l-4 border-b-4 font-bold">
           Submit
         </button>
       </div>
