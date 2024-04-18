@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import path from "path";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -80,7 +81,8 @@ export const Header = () => {
           </div>
         </motion.div>
 
-        <motion.button
+        <ConnectButton />
+        {/* <motion.button
           className="flex mt-6 h-[3.5rem] w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
         border border-black border-l-4 border-b-4"
           initial={{ y: -100, opacity: 0 }}
@@ -106,7 +108,7 @@ export const Header = () => {
               />
             </g>
           </svg>
-        </motion.button>
+        </motion.button> */}
 
         <Link href={"/profile"}>
           <motion.button
