@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ENTRYPOINT_ADDRESS_V07,
   UserOperation,
@@ -25,51 +25,46 @@ import {
   encodeFunctionData,
   http,
   parseEther,
-  getContract
+  getContract,
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { gnosisChiado } from "viem/chains";
-import { accountABI, accountFactoryABI } from "../utils/constants";
+import {
+  accountABI,
+  accountFactoryABI,
+  entryPointABI,
+} from "../utils/constants";
 import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
 import { m } from "framer-motion";
-const endpointUrl =
-  "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
+import {
+  callData,
+  publicClient,
+  bundlerClient,
+  factory,
+  factoryData,
+} from "../utils/helper";
 
-const AF_ADDRESS = "0x5F49Cf21273563a628F31cd08C1D4Ada7722aB58";
-const ownerPrivateKey = generatePrivateKey();
-const owner = privateKeyToAccount(ownerPrivateKey);
-
-const publicClient = createPublicClient({
-  transport: http("https://rpc.chiadochain.net"),
-  chain: gnosisChiado,
-});
-
-const bundlerClient = createClient({
-  chain: gnosisChiado,
-  transport: http(endpointUrl),
-}).extend(bundlerActions(ENTRYPOINT_ADDRESS_V07)).extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07));
-
-const paymasterClient = createClient({
-  transport: http(endpointUrl),
-  chain: gnosisChiado,
-}).extend(pimlicoPaymasterActions(ENTRYPOINT_ADDRESS_V07));
-
-
-const factory = AF_ADDRESS;
-
-const factoryData = encodeFunctionData({
-  abi: accountFactoryABI,
-  functionName: "createAccount",
-  args: [owner.address],
-});
-
-const callData = encodeFunctionData({
-  abi: accountABI,
-  functionName: "increment",
+const entryPointContract = getContract({
+  address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+  abi: entryPointABI,
+  client: publicClient,
 });
 
 const contactUs = async () => {
+  const [nonce, setNonce] = useState<BigInt>();
+  useEffect(() => {
+    const getNoncee = async () => {
+      const nonce = await entryPointContract.read.getNonce([
+        "0xdabebe1f35842cd865b49d601f672ebd873b216e",
+        0,
+      ]);
+      setNonce(nonce as BigInt);
+    };
+ 
+    getNoncee();
+    
+  }, []);
   
 
   const getGasPrice = async () => {
@@ -85,17 +80,25 @@ const contactUs = async () => {
     return senderAddress;
   };
 
+  const getNonce = async () => {
+    console.log(
+      "Executing User Operation...",
+      await entryPointContract.read.getNonce([
+        "0xdabebe1f35842cd865b49d601f672ebd873b216e",
+        0,
+      ])
+    );
+  }
 
+  console.log("Nonce: " + nonce);
 
   const executeUserOperation = async () => {
-    
-    
     const gasPrice = await getGasPrice();
-    
+   
     const userOperationHash = await bundlerClient.sendUserOperation({
       userOperation: {
-        sender: "0xdabebe1f35842cd865b49d601f672ebd873b216e",
-        nonce: BigInt("2"),
+        sender: "0xDabEbE1f35842cD865B49d601F672eBd873b216E",
+        nonce: nonce as BigInt,
         callData,
         maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
@@ -103,7 +106,7 @@ const contactUs = async () => {
         signature: "0x" as Hex,
         callGasLimit: BigInt(1_000_000),
         verificationGasLimit: BigInt(1_000_000),
-        preVerificationGas:BigInt(1_000_000),
+        preVerificationGas: BigInt(1_000_000),
       },
     });
 
@@ -116,14 +119,15 @@ const contactUs = async () => {
 
     const txHash = receipt.receipt.transactionHash;
 
-
     console.log(`UserOperation included: ${txHash}`);
   };
 
   return (
     <div>
       scasd
-      <button onClick={() => executeUserOperation()}>BAAAASSSSSS</button>
+      <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4" onClick={() => executeUserOperation()}>BAAAASSSSSS</button>
+      <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4" onClick={() => getNonce()}>GeTİİİİİİR</button>
+    
     </div>
   );
 };
