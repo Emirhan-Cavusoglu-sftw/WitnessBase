@@ -1,25 +1,160 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { WavyBackground } from "./components/wavy-background";
+import Image from "next/image";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
-  return (
-      <div className="">
-      <WavyBackground className="pb-40">
-      <p className="text-2xl md:text-4xl lg:text-7xl text-blue-300 font-bold inter-var text-center mt-12">
-      WitnessBase
-      </p>
-      <p className="text-base md:text-lg mt-4 text-blue-300 font-normal inter-var text-center">
-      WitnessBase: Securing unregistered product designs and enhancing user experience with decentralized wallets.
-      </p>
-      {/* <div className="flex justify-center ">
-      <div className="bg-[#52D3D8] w-full h-10"></div>
+  const { ref: ref1, inView: inView1 } = useInView({
+    triggerOnce: false,
+    threshold: 0.05,
+  });
 
-    </div> */}
-    </WavyBackground>
+  const { ref: ref2, inView: inView2 } = useInView({
+    triggerOnce: false,
+    threshold: 0.05,
+  });
 
+  const { ref: ref3, inView: inView3 } = useInView({
+    triggerOnce: false,
+    threshold: 0.05,
+  });
+
+  const mainControls1 = useAnimation();
+  const mainControls2 = useAnimation();
+  const mainControls3 = useAnimation();
+
+  useEffect(() => {
+    if (inView1) {
+      mainControls1.start("visible");
+    } else {
+      mainControls1.start("hidden");
+    }
+  }, [mainControls1, inView1]);
+
+  useEffect(() => {
+    if (inView2) {
+      mainControls2.start("visible");
+    } else {
+      mainControls2.start("hidden");
+    }
+  }, [mainControls2, inView2]);
+
+  useEffect(() => {
+    if (inView3) {
+      mainControls3.start("visible");
+    } else {
+      mainControls3.start("hidden");
+    }
+  }, [mainControls3, inView3]);
   
 
-      </div>
+  return (
+    <>
+      <WavyBackground className="pb-40">
+        <p className="text-2xl md:text-4xl lg:text-7xl text-black font-bold inter-var text-center mt-12">
+          WitnessBase
+        </p>
+        <p className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center">
+          WitnessBase: Securing unregistered product designs and enhancing user
+          experience with decentralized wallets.
+        </p>
+        <div className="flex mt-[600px] " >
+          <div
+            className="flex flex-col space-y-64"
+          >
+            <motion.div className="flex flex-row space-x-80"
+            ref={ref1}
+            variants={{
+              hidden: { opacity: 0, y: 75 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate={mainControls1}
+            transition={{ duration: 1.5, delay: 1 }}
+            >
+              <Image
+                className="rounded-3xl"
+                alt="Ethereum"
+                src="/metinImage1.jpg"
+                height={300}
+                width={400}
+              />
+              <p className="w-[450px] text-xl font-normal text-center pt-4 ">
+                <p className="font-bold p-4">
+                  WitnessBase Ensures Security and Legal Validity for
+                  Unregistered Product Designs
+                </p>
+                WitnessBase is a groundbreaking platform revolutionizing the
+                protection of unregistered product designs. Utilizing Solidity
+                for robust backend functionality, WitnessBase ensures the
+                integrity of design data, transforming it into admissible
+                evidence in legal contexts. With a focus on user experience,
+                WitnessBase seamlessly integrates decentralized wallet features,
+                providing users with a secure and intuitive interface for
+                safeguarding their valuable design assets.
+              </p>
+            </motion.div>
+            <motion.div className="flex flex-row space-x-80"
+            ref={ref2}
+            variants={{
+              hidden: { opacity: 0, y: 75 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate={mainControls2}
+            transition={{ duration: 1.5, delay: 1  }}
+            >
+              <p className="w-[450px] text-xl font-normal text-center pt-12">
+                <p className="font-bold p-4">
+                  WitnessBase&apos;s Time Stamp Documents Simplify Registration
+                  for Unregistered Product Designs
+                </p>
+                Time Stamp Documents (TSDs) on the platform allow users to input
+                necessary information for registration, securing unregistered
+                product designs while providing a seamless user experience with
+                decentralized wallets.
+              </p>
+              <Image
+                className="rounded-3xl"
+                alt="Ethereum"
+                src="/metinImage2.jpg"
+                height={300}
+                width={400}
+              />
+            </motion.div>
+            <motion.div className="flex flex-row space-x-80"
+            ref={ref3}
+            variants={{
+              hidden: { opacity: 0, y: 75 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            initial="hidden"
+            animate={mainControls3}
+            transition={{ duration: 1.5, delay: 1  }}
+            >
+              <Image
+                className="rounded-3xl"
+                alt="Ethereum"
+                src="/metinImage4.jpg"
+                height={300}
+                width={400}
+              />
+              <p className="w-[450px] text-xl font-normal text-center pt-12">
+                <p className="font-bold p-4">
+                  Protecting Unregistered Product Designs
+                </p>
+                WitnessBase incorporates Account Abstraction (AA), a secure
+                mechanism for storing Time Stamp Documents (TSDs) within users’
+                wallets. This feature empowers users to download sample PDFs and
+                seamlessly input essential registration details, ensuring the
+                protection of unregistered product designs on the platform.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </WavyBackground>
+    </>
   );
 }

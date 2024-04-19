@@ -36,7 +36,7 @@ const MyDocument = ({ ipfsData }) => {
         <View style={styles.container}>
           <Text>Name: {ipfsData && ipfsData.name}</Text>
           <Text>Description: {ipfsData && ipfsData.description}</Text>
-          {/* Dosya türüne göre, uygun bileşeni kullanabiliriz */}
+          
           {ipfsData && ipfsData.file && ipfsData.file.type === "image" ? (
             <Image style={styles.image} src={ipfsData.file.url} />
           ) : null}
