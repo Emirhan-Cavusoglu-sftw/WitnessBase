@@ -8,39 +8,21 @@ pragma solidity ^0.8.18;
 @dev Store & retrieve value in a variable
 @custom:dev-run-script ./scripts/deploy_with_ethers.ts
 */
-contract document {
-
-    string public name;
-    string public symbol;
+contract TSD {
+    string public userName;
+    string public projectName;
     string public projectDescription;
+    string public dataURI;
 
-
-
-
-
-
-    constructor(string memory _name, string memory _symbol,string memory _projectDescription){
-        name = _name;
-        symbol = _symbol;
+    constructor(
+        string memory _name,
+        string memory _projectName,
+        string memory _projectDescription,
+        string memory _dataURI
+    ) {
+        userName = _name;
+        projectName = _projectName;
         projectDescription = _projectDescription;
+        dataURI = _dataURI;
     }
-
-    function returnName() public view returns (string memory){
-        return name;
-    }
-
-    function returnSymbol() public view returns (string memory){
-        return symbol;
-    }
-}
-contract factory {
-    address[] public deployeddocument;
-
-    function createdocument( string memory _name, string memory _symbol,string memory _projectDescription) public {
-        address newdocument = address(new document(_name,_symbol,_projectDescription));
-        deployeddocument.push(newdocument);
-    }
-
-    
-
 }

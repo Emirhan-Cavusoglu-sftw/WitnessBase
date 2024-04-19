@@ -15,8 +15,7 @@ module.exports = {
     },
   },
   networks: {
-    hardhat: {
-    },
+  
     gnosis: {
       url: "https://rpc.gnosischain.com",
       accounts: accounts,
@@ -24,12 +23,15 @@ module.exports = {
     chiado: {
       url: "https://rpc.chiadochain.net",
       // gasPrice: 1000000000,
-      accounts: ["9410fc36d1509d016ab60055165c65edf0f5ca963d4e4e8ea089c1b892ebd245"],
+      accounts: [process.env.PRIVATE_KEY],
     },
     sepolia: {
       url: "https://eth-sepolia.g.alchemy.com/v2/KLy8dYdHatG6wz85fIpjCFIhYgb3dASv",
-      accounts: ["9410fc36d1509d016ab60055165c65edf0f5ca963d4e4e8ea089c1b892ebd245"],
+      accounts: [process.env.PRIVATE_KEY],
     },
+  },
+  sourcify: {
+    enabled: true
   },
   etherscan: {
     customChains: [
@@ -58,7 +60,7 @@ module.exports = {
     ],
 
     sourcify: {
-      enabled: true
+      enabled: false
     },
     apiKey: {
       //4) Insert your Gnosisscan API key
