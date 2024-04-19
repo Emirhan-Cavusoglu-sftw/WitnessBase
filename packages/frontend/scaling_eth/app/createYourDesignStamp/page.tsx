@@ -1,33 +1,79 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
+import { uploadFileToIPFS } from "../utils/pinata";
+import MyDocument from "../components/pdfviewer";
+import dynamic from "next/dynamic";
+
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
 
 const CreateYourDesignStamp = () => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [fileURL, setFileURL] = useState(null);
+  const [enableButton, setEnableButton] = useState(false);
+  const [message, setMessage] = useState("");
+  const [proofName, setProofName] = useState("");
+  const [proofDescription, setProofDescription] = useState("");
+  const [ipfsData, setIpfsData] = useState(null);
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile));
+      setMessage("Uploading image to IPFS... Please wait!");
+
+      try {
+        const response = await uploadFileToIPFS(selectedFile);
+        if (response.success) {
+          console.log("Uploaded image to Pinata: ", response.pinataURL);
+          setIpfsData({
+            name: proofName,
+            description: proofDescription,
+            file: {
+              type: selectedFile.type.split("/")[0], // "image" or "application"
+              url: response.pinataURL,
+            },
+          });
+          setFileURL(response.pinataURL);
+          setIsFileUploaded(true);
+          setMessage("Image uploaded successfully! You can now click on Create NFT.");
+          setEnableButton(true);
+        } else {
+          throw new Error("Failed to upload image to IPFS.");
+        }
+      } catch (error) {
+        console.error("Error during file upload", error);
+        setMessage("Error uploading image. Please try again.");
+      }
     }
+  };
+
+  const handleNameChange = (e) => {
+    setProofName(e.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setProofDescription(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // You can perform NFT creation or any other actions here using the ipfsData state.
+    // For now, let's log the ipfsData.
+    console.log("IPFS Data:", ipfsData);
   };
 
   return (
-    <form className="flex flex-row" onSubmit={handleSubmit}>
+    <>
+      <form className="flex flex-row" onSubmit={handleSubmit}>
       <div className="flex items-center mt-24 ml-10">
         <label htmlFor="file" className="cursor-pointer">
-          <div className="border-2 border-black w-[700px] h-[700px] flex items-center justify-center flex-col space-y-5">
+        <div className="border-2 border-black w-[700px] h-[700px] flex items-center justify-center flex-col space-y-5">
             {preview ? (
               <div className="w-full h-80 flex items-center justify-center">
                 {file.type === "application/pdf" ? (
@@ -77,6 +123,8 @@ const CreateYourDesignStamp = () => {
           id="name"
           type="text"
           placeholder=""
+          value={proofName}
+          onChange={handleNameChange}
         />
 
         <label
@@ -88,14 +136,42 @@ const CreateYourDesignStamp = () => {
         <textarea
           className="shadow appearance-none border border-black border-l-4 border-b-4 rounded w-full h-44 py-2 px-3 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline"
           id="description"
+          value={proofDescription}
+          onChange={handleDescriptionChange}
         ></textarea>
-        <button className="h-10 w-40 bg-gray-200 rounded-lg text-center border border-black border-l-4 border-b-4 font-bold">
+        <button
+          className="h-10 w-40 bg-gray-200 rounded-lg text-center border border-black border-l-4 border-b-4 font-bold"
+          disabled={!enableButton}
+          type="submit"
+        >
           Submit
         </button>
+        <input
+          id="file"
+          type="file"
+          className="hidden"
+          onChange={handleFileChange}
+        />
       </div>
-    </form>
+      </form>
+      <PDFDownloadLink document={<MyDocument ipfsData={ipfsData} />} fileName="loki.pdf">
+      {({ loading }) =>
+          loading ? (
+            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
+              Loading Document...
+            </button>
+          ) : (
+            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
+              Download
+            </button>
+          )
+        }
+      </PDFDownloadLink>
+    </>
   );
 };
 
 export default CreateYourDesignStamp;
+
+  
 
