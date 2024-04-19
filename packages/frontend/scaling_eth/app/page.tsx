@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { WavyBackground } from "./components/wavy-background";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
 
 export default function Home() {
   const { ref: ref1, inView: inView1 } = useInView({
@@ -48,31 +48,39 @@ export default function Home() {
       mainControls3.start("hidden");
     }
   }, [mainControls3, inView3]);
-  
 
   return (
     <>
       <WavyBackground className="pb-40">
-        <p className="text-2xl md:text-4xl lg:text-7xl text-black font-bold inter-var text-center mt-12">
+        <motion.p
+          className="text-2xl md:text-4xl lg:text-7xl text-black font-bold inter-var text-center mt-12"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           WitnessBase
-        </p>
-        <p className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center">
+        </motion.p>
+        <motion.p
+          className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
-        </p>
-        <div className="flex mt-[600px] " >
-          <div
-            className="flex flex-col space-y-64"
-          >
-            <motion.div className="flex flex-row space-x-80"
-            ref={ref1}
-            variants={{
-              hidden: { opacity: 0, y: 75 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate={mainControls1}
-            transition={{ duration: 1.5, delay: 1 }}
+        </motion.p>
+        <div className="flex mt-[600px] ">
+          <div className="flex flex-col space-y-64">
+            <motion.div
+              className="flex flex-row space-x-80"
+              ref={ref1}
+              variants={{
+                hidden: { opacity: 0, y: 75 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              initial="hidden"
+              animate={mainControls1}
+              transition={{ duration: 1.5, delay: 0.5 }}
             >
               <Image
                 className="rounded-3xl"
@@ -96,15 +104,16 @@ export default function Home() {
                 safeguarding their valuable design assets.
               </p>
             </motion.div>
-            <motion.div className="flex flex-row space-x-80"
-            ref={ref2}
-            variants={{
-              hidden: { opacity: 0, y: 75 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate={mainControls2}
-            transition={{ duration: 1.5, delay: 1  }}
+            <motion.div
+              className="flex flex-row space-x-80"
+              ref={ref2}
+              variants={{
+                hidden: { opacity: 0, y: 75 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              initial="hidden"
+              animate={mainControls2}
+              transition={{ duration: 1.5, delay: 0.5 }}
             >
               <p className="w-[450px] text-xl font-normal text-center pt-12">
                 <p className="font-bold p-4">
@@ -124,15 +133,16 @@ export default function Home() {
                 width={400}
               />
             </motion.div>
-            <motion.div className="flex flex-row space-x-80"
-            ref={ref3}
-            variants={{
-              hidden: { opacity: 0, y: 75 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            initial="hidden"
-            animate={mainControls3}
-            transition={{ duration: 1.5, delay: 1  }}
+            <motion.div
+              className="flex flex-row space-x-80"
+              ref={ref3}
+              variants={{
+                hidden: { opacity: 0, y: 75 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              initial="hidden"
+              animate={mainControls3}
+              transition={{ duration: 1.5, delay: 0.5 }}
             >
               <Image
                 className="rounded-3xl"
