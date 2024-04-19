@@ -39,14 +39,16 @@ import dynamic from "next/dynamic";
 import { privateKeyToSimpleSmartAccount } from "permissionless/accounts";
 import { m } from "framer-motion";
 import {
-  callData,
+  createTSD,
+  attestTSD,
   publicClient,
   bundlerClient,
   factory,
   factoryData,
   calculateSenderAddress,
   getGasPrice,
-  getNonce,
+  
+  paymaster,
 } from "../utils/helper";
 import { useReadContract } from 'wagmi';
 import { readContract } from '@wagmi/core'
@@ -63,51 +65,30 @@ const entryPointContract = getContract({
 const contactUs = async () => {
 
   const [nonce, setNonce] = useState<Number>();
-  const result = useReadContract({
-    abi: entryPointABI,
-    address: '0x0000000071727De22E5E9d8BAf0edAc6f37da032',
-    functionName: 'getNonce',
-    args: ["0xdabebe1f35842cd865b49d601f672ebd873b216e", 0],
-    chainId: 10200,
-    config: config
-  })
-  console.log(result , "result")
-  useEffect(() => {
-    const getNoncee = async () => {
-      const nonce = await entryPointContract.read.getNonce([
-        "0xdabebe1f35842cd865b49d601f672ebd873b216e",
-        0,
-      ]);
-      setNonce(nonce as Number);
-    };
 
-    getNoncee();
-  }, []);
+  const getNonce = async (address: string) => {
+    const nonce = await entryPointContract.read.getNonce([
+      address,
+      0,
+    ]);
+    setNonce(Number(nonce));
+  };
   const getSenderAddress = async () => {
     console.log("Sender Address: ", await calculateSenderAddress());
-    console.log("Sender Address: ", factoryData);
-
   }
-  const getNonce = async () => {
-    const result = await readContract(config, {
-      abi: entryPointABI,
-      address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-      functionName: "getNonce",
-      args: ["0xdabebe1f35842cd865b49d601f672ebd873b216e", 0],
-      
-    });
-    console.log("Nonce: ", result);
-  };
-  const executeUserOperation = async () => {
-    const gasPrice = await getGasPrice();
+    
 
+  
+  const executeUserOperation = async () => {
+    let gasPrice = await getGasPrice();
+    const senderAddress = await calculateSenderAddress()
     const userOperationHash = await bundlerClient.sendUserOperation({
       userOperation: {
-        sender: await calculateSenderAddress(),
+        sender: senderAddress,
         nonce: BigInt(0),
         factory: factory,
         factoryData: factoryData,
-        callData: "0x",
+        callData: createTSD,
         maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         paymasterVerificationGasLimit: BigInt(1000000),
@@ -119,7 +100,10 @@ const contactUs = async () => {
     });
 
     console.log("Received User Operation hash:" + userOperationHash);
-
+    
+    setTimeout(() => {
+      console.log("Waiting for 6 seconds...");
+    }, 6000);
     console.log("Querying for receipts...");
     const receipt = await bundlerClient.waitForUserOperationReceipt({
       hash: userOperationHash,
@@ -128,11 +112,75 @@ const contactUs = async () => {
     const txHash = receipt.receipt.transactionHash;
 
     console.log(`UserOperation included: ${txHash}`);
+
+    gasPrice = await getGasPrice();
+
+    const attestOperation = await bundlerClient.sendUserOperation({
+      userOperation: {
+        sender: senderAddress,
+        nonce: BigInt(1),
+        
+        callData: attestTSD,
+        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        paymasterVerificationGasLimit: BigInt(1000000),
+        signature: "0x" as Hex,
+        callGasLimit: BigInt(1_000_000),
+        verificationGasLimit: BigInt(1_000_000),
+        preVerificationGas: BigInt(1_000_000),
+      },
+    });
+
+
+    
+    console.log("Received AttestOperation hash:" + attestOperation);
+
+    console.log("Querying for receipts...");
+    const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
+      hash: attestOperation,
+    });
+
+    const attestTxHash = attestReceipt.receipt.transactionHash;
+
+    console.log(`AttestOperation included: ${attestTxHash}`);
+
   };
+
+  const attest = async () => {
+    let gasPrice = await getGasPrice();
+    await getNonce("0x986649720B37F6434b2C65836410eA2b1Bb15d4c");
+    const attestOperation = await bundlerClient.sendUserOperation({
+      userOperation: {
+        sender: "0xBc4876FC7055DbEa707445121838e6cD39D0f36F",
+        nonce: BigInt(2),
+        callData: attestTSD,
+        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        paymasterVerificationGasLimit: BigInt(1000000),
+        signature: "0x" as Hex,
+        callGasLimit: BigInt(1_000_000),
+        verificationGasLimit: BigInt(1_000_000),
+        preVerificationGas: BigInt(1_000_000),
+      },
+    });
+
+
+    
+    console.log("Received AttestOperation hash:" + attestOperation);
+
+    console.log("Querying for receipts...");
+    const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
+      hash: attestOperation,
+    });
+
+    const attestTxHash = attestReceipt.receipt.transactionHash;
+
+    console.log(`AttestOperation included: ${attestTxHash}`);
+  }
 
   return (
     <div>
-      scasd
+      
       <button
         className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
         onClick={() => executeUserOperation()}
@@ -148,10 +196,22 @@ const contactUs = async () => {
       </button>
       <button
         className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+        onClick={() => attest()}
+      >
+        ATTEST
+      </button>
+      {/* <button
+        className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
         onClick={() => getNonce()}
       >
         SenderAddress
-      </button>
+      </button> */}
+      {/* <button
+        className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+        onClick={() => getNonce()}
+      >
+        {paymaster.account.address}
+      </button> */}
     </div>
   );
 };
