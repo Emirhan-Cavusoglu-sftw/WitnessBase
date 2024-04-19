@@ -81,7 +81,7 @@ export const Header = () => {
           </div>
         </motion.div>
 
-        <ConnectButton />
+        <ConnectButton label="Sign in" accountStatus="address" chainStatus="icon" showBalance={false} />
         {/* <motion.button
           className="flex mt-6 h-[3.5rem] w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
         border border-black border-l-4 border-b-4"

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "./Header";
 import Footer from "./components/Footer"
 import { Providers } from "./components/connect-provider";
+import '@rainbow-me/rainbowkit/styles.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
