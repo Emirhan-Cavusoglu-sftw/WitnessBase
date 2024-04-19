@@ -154,7 +154,7 @@ const CreateYourDesignStamp = () => {
         />
       </div>
       </form>
-      <PDFDownloadLink document={<MyDocument ipfsData={ipfsData} />} fileName="loki.pdf" className="flex justify-center">
+      <PDFDownloadLink document={<MyDocument ipfsData={ipfsData} />} fileName="TSD.pdf" className="flex justify-center">
       {({ loading }) =>
           loading ? (
             <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">

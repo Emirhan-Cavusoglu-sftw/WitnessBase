@@ -6,26 +6,40 @@ import {
   Document,
   StyleSheet,
   Image,
+  Link,
 } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: "#ffdab5", // PeachPuff
+    padding: 40,
   },
   container: {
-    padding: 40,
-    paddingTop: 20,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  lokiInfoText: {
-    fontSize: 12,
-    textAlign: "justify",
+  title: {
+    fontSize: 18,
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+  text: {
+    fontSize: 14,
+    marginBottom: 5,
+    textAlign: "center",
   },
   image: {
-    width: 200,
-    height: 200,
-    marginVertical: 10,
-    alignSelf: "center",
+    width: 400,
+    height: 220,
+    marginBottom: 20,
+  },
+  pdfLink: {
+    color: "blue",
+    textDecoration: "underline",
+    textAlign: "center",
+    marginTop: 10,
   },
 });
 
@@ -34,11 +48,14 @@ const MyDocument = ({ ipfsData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
-          <Text>Name: {ipfsData && ipfsData.name}</Text>
-          <Text>Description: {ipfsData && ipfsData.description}</Text>
+          <Text style={styles.title}>Product Information</Text>
+          <Text style={styles.text}>Name: {ipfsData ? ipfsData.name : ""}</Text>
+          <Text style={styles.text}>Description: {ipfsData ? ipfsData.description : ""}</Text>
           
           {ipfsData && ipfsData.file && ipfsData.file.type === "image" ? (
             <Image style={styles.image} src={ipfsData.file.url} />
+          ) : ipfsData && ipfsData.file && ipfsData.file.type === "pdf" ? (
+            <embed src={ipfsData.file.url} width="500" height="375" type="application/pdf" />
           ) : null}
         </View>
       </Page>
@@ -47,4 +64,5 @@ const MyDocument = ({ ipfsData }) => {
 };
 
 export default MyDocument;
+
 
