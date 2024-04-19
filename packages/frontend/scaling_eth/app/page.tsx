@@ -89,11 +89,11 @@ export default function Home() {
                 height={300}
                 width={400}
               />
-              <p className="w-[450px] text-xl font-normal text-center pt-4 ">
-                <p className="font-bold p-4">
+              <p className="w-[450px] text-xl font-normal text-center pt-4 flex flex-col ">
+                <span className="font-bold mb-4">
                   WitnessBase Ensures Security and Legal Validity for
                   Unregistered Product Designs
-                </p>
+                </span>
                 WitnessBase is a groundbreaking platform revolutionizing the
                 protection of unregistered product designs. Utilizing Solidity
                 for robust backend functionality, WitnessBase ensures the
@@ -115,11 +115,11 @@ export default function Home() {
               animate={mainControls2}
               transition={{ duration: 1.5, delay: 0.5 }}
             >
-              <p className="w-[450px] text-xl font-normal text-center pt-12">
-                <p className="font-bold p-4">
+              <p className="w-[450px] text-xl font-normal text-center pt-12 flex flex-col">
+                <span className="font-bold mb-4">
                   WitnessBase&apos;s Time Stamp Documents Simplify Registration
                   for Unregistered Product Designs
-                </p>
+                </span>
                 Time Stamp Documents (TSDs) on the platform allow users to input
                 necessary information for registration, securing unregistered
                 product designs while providing a seamless user experience with
@@ -151,10 +151,10 @@ export default function Home() {
                 height={300}
                 width={400}
               />
-              <p className="w-[450px] text-xl font-normal text-center pt-12">
-                <p className="font-bold p-4">
+              <p className="w-[450px] text-xl font-normal text-center pt-12 flex flex-col">
+                <span className="font-bold mb-4">
                   Protecting Unregistered Product Designs
-                </p>
+                </span>
                 WitnessBase incorporates Account Abstraction (AA), a secure
                 mechanism for storing Time Stamp Documents (TSDs) within users’
                 wallets. This feature empowers users to download sample PDFs and
