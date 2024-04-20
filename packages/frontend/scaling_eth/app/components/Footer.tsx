@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-transparent text-black py-4 fixed bottom-0 w-full">
+    <footer className="bg-transparent text-black py-4 bottom-0 w-full fixed">
       <div className="container mx-auto text-center flex flex-row justify-center space-x-3">
         <p>&copy; For All Time. Always... </p>
         <Link href={"https://twitter.com/ITUBlockchainen" }  target="_blank" rel="noopener noreferrer">

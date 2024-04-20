@@ -53,15 +53,15 @@ const endpointUrl =
 
 const AF_ADDRESS = "0xf568043E1e6b5D8466CA3165D63d2e41FDd80c08";
 
-export const wallet = privateKeyToAccount(
-  `0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}`
-);
+// export const wallet = privateKeyToAccount(
+//   `0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}`
+// );
 
-export const paymaster = createWalletClient({
-  account: wallet,
-  chain: gnosisChiado,
-  transport: http(window.ethereum ? window.ethereum : endpointUrl),
-});
+// export const paymaster = createWalletClient({
+//   account: wallet,
+//   chain: gnosisChiado,
+//   transport: http(window.ethereum ? window.ethereum : endpointUrl),
+// });
 
 export const publicClient = createPublicClient({
   transport: http("https://rpc.chiadochain.net"),
