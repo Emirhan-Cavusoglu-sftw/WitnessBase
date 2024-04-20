@@ -43,20 +43,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyDocument = ({ ipfsData }) => {
+const MyDocument = ({ proofName, proofDescription, images }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
           <Text style={styles.title}>Product Information</Text>
-          <Text style={styles.text}>Name: {ipfsData ? ipfsData.name : ""}</Text>
-          <Text style={styles.text}>Description: {ipfsData ? ipfsData.description : ""}</Text>
+          <Text style={styles.text}>Name: {proofName}</Text>
+          <Text style={styles.text}>Description: {proofDescription}</Text>
           
-          {ipfsData && ipfsData.file && ipfsData.file.type === "image" ? (
-            <Image style={styles.image} src={ipfsData.file.url} />
-          ) : ipfsData && ipfsData.file && ipfsData.file.type === "pdf" ? (
-            <embed src={ipfsData.file.url} width="500" height="375" type="application/pdf" />
-          ) : null}
+          {images.map((image, index) => (
+          <Image key={index} style={styles.image} src={image} />
+        ))}
         </View>
       </Page>
     </Document>
