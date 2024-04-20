@@ -5,6 +5,7 @@ import {
   RainbowKitProvider,
   getDefaultWallets,
   getDefaultConfig,
+  Theme,
 } from '@rainbow-me/rainbowkit';
 import {
   argentWallet,
@@ -21,6 +22,63 @@ import {
 } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
+
+// const myCustomTheme: Theme = {
+//   blurs: {
+//     modalOverlay: '...',
+//   },
+//   colors: {
+//     accentColor: '...',
+//     accentColorForeground: '...',
+//     actionButtonBorder: '...',
+//     actionButtonBorderMobile: '...',
+//     actionButtonSecondaryBackground: '...',
+//     closeButton: '...',
+//     closeButtonBackground: '...',
+//     connectButtonBackground: '...',
+//     connectButtonBackgroundError: '...',
+//     connectButtonInnerBackground: '...',
+//     connectButtonText: '...',
+//     connectButtonTextError: '...',
+//     connectionIndicator: '...',
+//     downloadBottomCardBackground: '...',
+//     downloadTopCardBackground: '...',
+//     error: '...',
+//     generalBorder: '...',
+//     generalBorderDim: '...',
+//     menuItemBackground: '...',
+//     modalBackdrop: '...',
+//     modalBackground: '...',
+//     modalBorder: '...',
+//     modalText: '...',
+//     modalTextDim: '...',
+//     modalTextSecondary: '...',
+//     profileAction: '...',
+//     profileActionHover: '...',
+//     profileForeground: '...',
+//     selectedOptionBorder: '...',
+//     standby: '...',
+//   },
+//   fonts: {
+//     body: '...',
+//   },
+//   radii: {
+//     actionButton: '...',
+//     connectButton: '...',
+//     menuButton: '...',
+//     modal: '...',
+//     modalMobile: '...',
+//   },
+//   shadows: {
+//     connectButton: '...',
+//     dialog: '...',
+//     profileDetailsAction: '...',
+//     selectedOption: '...',
+//     selectedWallet: '...',
+//     walletLogo: '...',
+//   },
+// };
+
 
 const { wallets } = getDefaultWallets();
 
@@ -51,7 +109,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider >{children}</RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
