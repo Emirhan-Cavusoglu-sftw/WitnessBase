@@ -9,12 +9,14 @@ import {Attestation} from "@ethsign/sign-protocol-evm/src/models/Attestation.sol
 import {DataLocation} from "@ethsign/sign-protocol-evm/src/models/DataLocation.sol";
 
 contract Account is IAccount {
-    ISP public spInstance=ISP(0x4e4af2a21ebf62850fD99Eb6253E1eFBb56098cD);
+    ISP public spInstance = ISP(0x4e4af2a21ebf62850fD99Eb6253E1eFBb56098cD);
     uint64 public schemaId;
-    uint256 public count;
+    uint256 public tsdCounter;
     address public owner;
-    string public userName="Emojan";
-    TSD public lastTSD;
+    string public userName = "Emojan";
+    TSD public tsd;
+    address[] public tsds;
+    
 
     event Log(string message);
 
@@ -23,8 +25,6 @@ contract Account is IAccount {
         userName = _userName;
     }
 
-    
-    
     function validateUserOp(
         PackedUserOperation calldata,
         bytes32,
@@ -32,18 +32,20 @@ contract Account is IAccount {
     ) external virtual override returns (uint256 validationData) {
         return 0;
     }
+
     function createTSD(
         string memory _projectName,
         string memory _projectDescription,
         string memory _dataURI
-    ) public returns (address) {
-        lastTSD = new TSD(
+    ) public {
+        tsd = new TSD(
             userName,
             _projectName,
             _projectDescription,
             _dataURI
         );
-        return address(lastTSD);
+        tsds.push(address(tsd));
+        tsdCounter++;
     }
 
     function attestTSD()  external returns (uint64){
@@ -57,17 +59,11 @@ contract Account is IAccount {
             dataLocation: DataLocation.ONCHAIN,
             revoked: false,
             recipients: new bytes[](0),
-            data: abi.encode("exp") 
+            data: abi.encode("exp")
         });
-       
-       
 
-       uint64 attestationId =  spInstance.attest(a, "bok", "0x", "0x");
+       uint64 attestationId =  spInstance.attest(a, "", "", "");
        return attestationId;
-    }
-
-    function tryAttestTSD() public  returns (uint64){
-        
     }
 }
 
