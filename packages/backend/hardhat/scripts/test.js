@@ -1,25 +1,22 @@
 const hre = require("hardhat");
 
-const EP_ADDRESS = "0xB6580c0A7fDCf97044C6d8052116e934a5F748AF";
+const EP_ADDRESS = "0x3106Da244d5C404D2aBb16EF75af9Cb68BfFd3c5";
 // 0x986649720B37F6434b2C65836410eA2b1Bb15d4c
 // 0xd7486758789b9fAf45B6d3Fba08dE358ae8d8872
 async function main() {
-    
-    
- 
-    const ep = await ethers.getContractAt("Account", EP_ADDRESS);
+  const ep = await ethers.getContractAt("Account", EP_ADDRESS);
 
-    console.log("EntryPoint deployed to ", await ep.attestTSD());
-    
+  await ep.createTSD("emo", "emo", "emo");
 
-    
+  const receipt = await ep.attestTSD();
 
+  const tsd = await ep.lastTSD();
 
-    console.log("EntryPoint deployed to ", ep.target);
+  console.log("EntryPoint deployed to ", tsd);
+  console.log("EntryPoint deployed to ", receipt);
 }
 
 main().catch((error) => {
-    console.error(error);
-    process.exit(1);
-}); // Add closing parenthesis here
-
+  console.error(error);
+  process.exit(1);
+});

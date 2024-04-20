@@ -41,7 +41,7 @@ import { config } from "./config";
 
 const endpointUrl =
   "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
-const AF_ADDRESS = "0x9b3ea3121F69cEe5aC645a5C4bC0db71F28Dd0BC";
+const AF_ADDRESS = "0x589e0A6f542F26693A5bD1e76C9A9ACCcBAaa213";
 export const wallet = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}` );
 
 export const paymaster = createWalletClient({
@@ -70,6 +70,7 @@ const paymasterClient = createClient({
 
 export const factory = AF_ADDRESS;
 
+// CALLDATAS
 export const factoryData = encodeFunctionData({
   abi: accountFactoryABI,
   functionName: "createAccount",
