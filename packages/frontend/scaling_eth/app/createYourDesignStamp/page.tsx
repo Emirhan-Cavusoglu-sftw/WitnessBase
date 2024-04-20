@@ -5,6 +5,10 @@ import MyDocument from "../components/pdfviewer";
 import dynamic from "next/dynamic";
 import { pdf } from "@react-pdf/renderer";
 import Link from "next/link";
+import { accountABI } from "../utils/constants";
+import { encodeFunctionData, Hex } from "viem";
+import { accountContract, bundlerClient, factory, factoryData, getCreateTSD, getGasPrice, getTSDContract } from "../utils/helper";
+import { create } from "domain";
 
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
@@ -80,6 +84,37 @@ const CreateYourDesignStamp = () => {
       // Upload PDF to Pinata
       await uploadPDFToPinata(pdfBlob);
 
+      const createTSD = await getCreateTSD(proofName, proofDescription, ipfsUrl);
+
+      let gasPrice = await getGasPrice();
+
+      const userOperationHash = await bundlerClient.sendUserOperation({
+        userOperation: {
+          sender: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
+          nonce: BigInt(3),
+          callData: createTSD,
+          maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+          maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+          paymasterVerificationGasLimit: BigInt(1000000),
+          signature: "0x" as Hex,
+          callGasLimit: BigInt(2_000_000),
+          verificationGasLimit: BigInt(2_000_000),
+          preVerificationGas: BigInt(2_000_000),
+          
+        },
+      });
+  
+      console.log("Received User Operation hash:" + userOperationHash);
+  
+      console.log("Querying for receipts...");
+      const receipt = await bundlerClient.waitForUserOperationReceipt({
+        hash: userOperationHash,
+      });
+  
+      const txHash = receipt.receipt.transactionHash;
+  
+      console.log(`UserOperation included: ${txHash}`);
+
       // Display success message
       setMessage("PDF uploaded to Pinata successfully!");
     } catch (error) {
@@ -87,7 +122,15 @@ const CreateYourDesignStamp = () => {
       setMessage("Error creating and uploading PDF. Please try again.");
     }
   };
-
+  const getTSD = async () => {
+    const tsdContract = await getTSDContract("0xA8062732D4806e512b4Fba40fd8928C72b3Aa3A4")
+    const tsd = await accountContract.read.tsds([1])
+    console.log(tsd)
+    const name = await tsdContract.read.projectName()
+    console.log(name)
+    console.log({ipfsUrl})
+  }
+  console.log("tsd")
   const uploadPDFToPinata = async (pdfBlob) => {
     try {
       // Upload PDF blob to Pinata
@@ -192,6 +235,10 @@ const CreateYourDesignStamp = () => {
           </Link>
         )}
       </div>
+
+      <button onClick={()=>getTSD()}>
+        BAS
+      </button>
     </>
   );
 };

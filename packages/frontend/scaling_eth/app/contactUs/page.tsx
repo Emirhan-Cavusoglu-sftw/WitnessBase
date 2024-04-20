@@ -48,6 +48,7 @@ import {
   calculateSenderAddress,
   getGasPrice,
   paymaster,
+  
 } from "../utils/helper";
 import { useReadContract } from "wagmi";
 import { readContract } from "@wagmi/core";
@@ -78,8 +79,7 @@ const contactUs = async () => {
     }, 6000);
   };
 
-  console.log("Calldata: ", attestTSD);
-  console.log("FactoryData: ", createTSD);
+  
 
   const executeUserOperation = async () => {
     let gasPrice = await getGasPrice();
@@ -112,7 +112,7 @@ const contactUs = async () => {
 
     // console.log(`CreateOP included: ${hash}`);
 
-    gasPrice = await getGasPrice();
+    
 
     const userOperationHash = await bundlerClient.sendUserOperation({
       userOperation: {
@@ -120,14 +120,14 @@ const contactUs = async () => {
         nonce: BigInt(0),
         factory: factory,
         factoryData: factoryData,
-        callData: createTSD,
+        callData: "0x",
         maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         paymasterVerificationGasLimit: BigInt(1000000),
         signature: "0x" as Hex,
-        callGasLimit: BigInt(1_000_000),
-        verificationGasLimit: BigInt(1_000_000),
-        preVerificationGas: BigInt(1_000_000),
+        callGasLimit: BigInt(2_000_000),
+        verificationGasLimit: BigInt(2_000_000),
+        preVerificationGas: BigInt(2_000_000),
         
       },
     });
@@ -143,35 +143,35 @@ const contactUs = async () => {
 
     console.log(`UserOperation included: ${txHash}`);
 
-    await sleep();
+    // await sleep();
 
-    gasPrice = await getGasPrice();
+    // gasPrice = await getGasPrice();
 
-    const attestOperation = await bundlerClient.sendUserOperation({
-      userOperation: {
-        sender: senderAddress,
-        nonce: BigInt(1),
-        callData: attestTSD,
-        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-        paymasterVerificationGasLimit: BigInt(1000000),
-        signature: "0x" as Hex,
-        callGasLimit: BigInt(1_000_000),
-        verificationGasLimit: BigInt(1_000_000),
-        preVerificationGas: BigInt(1_000_000),
-      },
-    });
+    // const attestOperation = await bundlerClient.sendUserOperation({
+    //   userOperation: {
+    //     sender: senderAddress,
+    //     nonce: BigInt(1),
+    //     callData: attestTSD,
+    //     maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+    //     maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+    //     paymasterVerificationGasLimit: BigInt(1000000),
+    //     signature: "0x" as Hex,
+    //     callGasLimit: BigInt(1_000_000),
+    //     verificationGasLimit: BigInt(1_000_000),
+    //     preVerificationGas: BigInt(1_000_000),
+    //   },
+    // });
 
-    console.log("Received AttestOperation hash:" + attestOperation);
+    // console.log("Received AttestOperation hash:" + attestOperation);
 
-    console.log("Querying for receipts...");
-    const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
-      hash: attestOperation,
-    });
+    // console.log("Querying for receipts...");
+    // const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
+    //   hash: attestOperation,
+    // });
 
-    const attestTxHash = attestReceipt.receipt.transactionHash;
+    // const attestTxHash = attestReceipt.receipt.transactionHash;
 
-    console.log(`AttestOperation included: ${attestTxHash}`);
+    // console.log(`AttestOperation included: ${attestTxHash}`);
   };
 
   const attest = async () => {
@@ -203,6 +203,8 @@ const contactUs = async () => {
 
     console.log(`AttestOperation included: ${attestTxHash}`);
   };
+
+  
 
   return (
     <div>
