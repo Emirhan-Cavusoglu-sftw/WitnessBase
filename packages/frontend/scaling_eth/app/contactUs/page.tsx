@@ -120,7 +120,7 @@ const contactUs = async () => {
         nonce: BigInt(0),
         factory: factory,
         factoryData: factoryData,
-        callData: "0x",
+        callData: createTSD,
         maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
         paymasterVerificationGasLimit: BigInt(1000000),
@@ -145,33 +145,33 @@ const contactUs = async () => {
 
     // await sleep();
 
-    // gasPrice = await getGasPrice();
+    gasPrice = await getGasPrice();
 
-    // const attestOperation = await bundlerClient.sendUserOperation({
-    //   userOperation: {
-    //     sender: senderAddress,
-    //     nonce: BigInt(1),
-    //     callData: attestTSD,
-    //     maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-    //     maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-    //     paymasterVerificationGasLimit: BigInt(1000000),
-    //     signature: "0x" as Hex,
-    //     callGasLimit: BigInt(1_000_000),
-    //     verificationGasLimit: BigInt(1_000_000),
-    //     preVerificationGas: BigInt(1_000_000),
-    //   },
-    // });
+    const attestOperation = await bundlerClient.sendUserOperation({
+      userOperation: {
+        sender: senderAddress,
+        nonce: BigInt(1),
+        callData: attestTSD,
+        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        paymasterVerificationGasLimit: BigInt(1000000),
+        signature: "0x" as Hex,
+        callGasLimit: BigInt(1_000_000),
+        verificationGasLimit: BigInt(1_000_000),
+        preVerificationGas: BigInt(1_000_000),
+      },
+    });
 
-    // console.log("Received AttestOperation hash:" + attestOperation);
+    console.log("Received AttestOperation hash:" + attestOperation);
 
-    // console.log("Querying for receipts...");
-    // const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
-    //   hash: attestOperation,
-    // });
+    console.log("Querying for receipts...");
+    const attestReceipt = await bundlerClient.waitForUserOperationReceipt({
+      hash: attestOperation,
+    });
 
-    // const attestTxHash = attestReceipt.receipt.transactionHash;
+    const attestTxHash = attestReceipt.receipt.transactionHash;
 
-    // console.log(`AttestOperation included: ${attestTxHash}`);
+    console.log(`AttestOperation included: ${attestTxHash}`);
   };
 
   const attest = async () => {

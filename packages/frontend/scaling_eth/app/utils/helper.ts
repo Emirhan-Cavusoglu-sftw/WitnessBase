@@ -50,7 +50,9 @@ import { config } from "./config";
 
 const endpointUrl =
   "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
-const AF_ADDRESS = "0x57E0df9de545f14e4CDd316608c0f28C2b5c4420";
+
+const AF_ADDRESS = "0xf568043E1e6b5D8466CA3165D63d2e41FDd80c08";
+
 export const wallet = privateKeyToAccount(
   `0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}`
 );
@@ -92,10 +94,10 @@ export const createTSD = encodeFunctionData({
   functionName: "createTSD",
   args: ["bok", "bok açıklama", "uri falan filan"],
 });
-// export const attestTSD = encodeFunctionData({
-//   abi: accountABI,
-//   functionName: "attestTSD",
-// });
+export const attestTSD = encodeFunctionData({
+  abi: accountABI,
+  functionName: "attestTSD",
+});
 
 export const entryPointContract = getContract({
   address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
