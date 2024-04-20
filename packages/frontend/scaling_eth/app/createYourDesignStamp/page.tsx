@@ -124,11 +124,14 @@ const CreateYourDesignStamp = () => {
   };
   const getTSD = async () => {
     const tsdContract = await getTSDContract("0xA8062732D4806e512b4Fba40fd8928C72b3Aa3A4")
-    const tsd = await accountContract.read.tsds([1])
+    const tsd = await accountContract.read.tsds([2])
     console.log(tsd)
     const name = await tsdContract.read.projectName()
+    const url = await tsdContract.read.dataURI()
+
     console.log(name)
-    console.log({ipfsUrl})
+    // console.log({ipfsUrl})
+    console.log(url)
   }
   console.log("tsd")
   const uploadPDFToPinata = async (pdfBlob) => {
