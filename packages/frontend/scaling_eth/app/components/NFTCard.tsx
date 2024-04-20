@@ -6,11 +6,11 @@ const NFTCard = () => {
   return (
     <div className="flex flex-col justify-center items-center text-center relative">
       <Image
-        src={"/Scroll.png"}
+        src={"/pixelScrolll.png"}
         alt="Scroll"
         className="z-0"
-        height={600}
-        width={600}
+        height={400}
+        width={400}
       />
       <div className="absolute center">
         <p>Username:</p>
