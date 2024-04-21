@@ -29,6 +29,7 @@ const PDFDownloadLink = dynamic(
 
 const CreateYourDesignStamp = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [attestTxHash, setAttestTxHash] = useState(null);
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
@@ -158,6 +159,7 @@ const CreateYourDesignStamp = () => {
       const txHash = receipt.receipt.transactionHash;
 
       console.log(`UserOperation included: ${txHash}`);
+      
 
       gasPrice = await getGasPrice();
 
@@ -186,8 +188,9 @@ const CreateYourDesignStamp = () => {
       });
 
       const attestTxHash = attestReceipt.receipt.transactionHash;
-
+      
       console.log(`AttestOperation included: ${attestTxHash}`);
+      setAttestTxHash(attestTxHash);
 
       // Display success message
 
@@ -296,7 +299,7 @@ const CreateYourDesignStamp = () => {
           </button>
           {attestCompleted && (
             <Link
-              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}`}
+              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=logs`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -305,6 +308,7 @@ const CreateYourDesignStamp = () => {
               </button>
             </Link>
           )}
+          
         </div>
       </form>
       {/* <PDFDownloadLink document={<MyDocument proofName={proofName} proofDescription={proofDescription} images={fileURLs} />} fileName="TSD.pdf" className="flex justify-center">
