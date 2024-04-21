@@ -11,9 +11,19 @@ import {
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+import {} from "viem/actions";
+import {
+  getGasPrice,
+  getFactoryData,
+  calculateSenderAddress,
+  bundlerClient,
+  factory
+} from "./utils/helper";
+import { Hex } from "viem";
 
 export default function Home() {
-  const {user,primaryWallet} = useDynamicContext();
+  const { user, primaryWallet } = useDynamicContext();
+
   const { ref: ref1, inView: inView1 } = useInView({
     triggerOnce: false,
     threshold: 0.05,
@@ -57,6 +67,51 @@ export default function Home() {
     }
   }, [mainControls3, inView3]);
 
+  const getSenderAddress = async () => {
+    const factoryData = await getFactoryData(
+      primaryWallet?.address,
+      user?.alias
+    );
+    console.log("Sender Address: ", await calculateSenderAddress(factoryData));
+  };
+
+  const createAccount = async () => {
+    let gasPrice = await getGasPrice();
+    const factoryData = await getFactoryData(
+      primaryWallet?.address,
+      user?.alias
+    );
+    const senderAddress = await calculateSenderAddress(factoryData);
+    
+    const userOperationHash = await bundlerClient.sendUserOperation({
+      userOperation: {
+        sender: senderAddress,
+        nonce: BigInt(0),
+        factory: factory,
+        factoryData: factoryData,
+        callData: "0x" as Hex,
+        maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
+        paymasterVerificationGasLimit: BigInt(1000000),
+        signature: "0x" as Hex,
+        callGasLimit: BigInt(2_000_000),
+        verificationGasLimit: BigInt(2_000_000),
+        preVerificationGas: BigInt(2_000_000),
+      },
+    });
+
+    console.log("Received User Operation hash:" + userOperationHash);
+
+    console.log("Querying for receipts...");
+    const receipt = await bundlerClient.waitForUserOperationReceipt({
+      hash: userOperationHash,
+    });
+
+    const txHash = receipt.receipt.transactionHash;
+
+    console.log(`UserOperation included: ${txHash}`);
+  };
+
   return (
     <>
       <WavyBackground className="pb-40">
@@ -79,6 +134,18 @@ export default function Home() {
         </motion.p>
         <div className="bg-white w-11 h-8 to-black">
           {primaryWallet?.address}
+          <button
+        className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+        onClick={() => createAccount()}
+      >
+        Create Your Smart Account
+      </button>
+          <button
+        className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+        onClick={() => getSenderAddress()}
+      >
+        Create Your Smart Account
+      </button>
         </div>
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">
