@@ -103,6 +103,10 @@ export default function Home() {
   const fundAccount = async () => {
     // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
     // console.log(fund);
+    const factoryData = await getFactoryData(
+      primaryWallet?.address,
+      user?.alias
+    );
     const { request } = await publicClient.simulateContract({
       account: primaryWallet?.address,
       address: ENTRYPOINT_ADDRESS_V07,
