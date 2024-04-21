@@ -24,14 +24,13 @@ const Profile = () => {
   useEffect(() => {
     const fetchAccountAddress = async () => {
       const address = primaryWallet?.address;
-      
-        const userAccountAddress = await factoryContract.read.ownerToAccount([
-          address,
-        ]);
-        setaccountAddress(userAccountAddress as Hex);
-      
+
+      const userAccountAddress = await factoryContract.read.ownerToAccount([
+        address,
+      ]);
+      setaccountAddress(userAccountAddress as Hex);
     };
-  
+
     fetchAccountAddress();
   }, [primaryWallet]);
 
@@ -69,13 +68,14 @@ const Profile = () => {
   return (
     <main className="flex flex-col space-y-48 ">
       <div className="flex flex-col space-y-4 mt-12">
-        <div className="flex flex-row bg-orange-400 h-[50px] w-[680px] ml-12 justify-center items-center text-center rounded-2xl">
+        <div className="flex flex-row bg-orange-400 h-[100px] w-[880px] ml-12 justify-center items-center text-center rounded-2xl">
           <h1 className="font-bold text-2xl">
-            Your Smart Account: {accountAddress ? accountAddress : "Account Address"}
+            Your Smart Account:{" "}
+            {accountAddress ? accountAddress : "Account Address"}
           </h1>
           <svg
-            width="30px"
-            height="30px"
+            width="60px"
+            height="60px"
             viewBox="0 -0.5 25 25"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -105,29 +105,29 @@ const Profile = () => {
 
       <div className="relative mt-24 ">
         <Image
-          src={"/time.png"}
+          src={"/Group4 1.png"}
           alt="Timeline"
           height={400}
           className="w-full "
           width={2000}
         />
 
-        <div className="absolute -top-20 left-[400px] ">
+        <div className="absolute" style={{ top: "-30%", left: "20%" }}>
           <NFTCard />
         </div>
-        <div className="absolute top-8 right-[60px]">
+        <div className="absolute" style={{ top: "-10%", right: "1%" }}>
           <NFTCard />
         </div>
-        <div className="absolute top-0 right-[800px]">
+        <div className="absolute" style={{ top: "-10%", right: "40%" }}>
           <NFTCard />
         </div>
-        <div className="absolute -bottom-10 left-[560px]">
+        <div className="absolute" style={{ bottom: "-15%", left: "28%" }}>
           <NFTCard />
         </div>
-        <div className="absolute -bottom-10 right-[300px] ">
+        <div className="absolute" style={{ bottom: "-15%", right: "15%" }}>
           <NFTCard />
         </div>
-        <div className="absolute -bottom-12 right-[700px] ">
+        <div className="absolute" style={{ bottom: "-20%", right: "35%" }}>
           <NFTCard />
         </div>
       </div>

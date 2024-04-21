@@ -3,34 +3,48 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "./Header";
 import Footer from "./components/Footer";
-import "@rainbow-me/rainbowkit/styles.css";
 import Provider from "./components/dy-provider";
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
 } from "../lib/dynamic";
 
+type evmNetworks = {
+  blockExplorerUrls: string[];
+    chainId: number;
+    chainName: string;
+    iconUrls: string[];
+    name: string;
+    nativeCurrency: {
+        decimals: number;
+        name: string;
+        symbol: string;
+    };
+    networkId: number;
+    rpcUrls: string[];
+    vanityName: string;
+};
+
 
 const inter = Inter({ subsets: ["latin"] });
 const evmNetworks = [
   {
-    blockExplorerUrls: ['https://gnosis-chiado.blockscout.com/'],
+    blockExplorerUrls: ["https://gnosis-chiado.blockscout.com/"],
     chainId: 10200,
-    chainName: 'Gnosis Chiado Testnet',
-    iconUrls: ['https://app.dynamic.xyz/assets/networks/eth.svg'],
-    name: 'Gnosis Testnet',
+    chainName: "Gnosis Chiado Testnet",
+    iconUrls: ["https://app.dynamic.xyz/assets/networks/eth.svg"],
+    name: "Gnosis Testnet",
     nativeCurrency: {
       decimals: 18,
-      name: 'XDAI',
-      symbol: 'XDAI',
+      name: "XDAI",
+      symbol: "XDAI",
     },
     networkId: 1,
 
-    rpcUrls: ['https://rpc.chiadochain.net'],
-    vanityName: 'Gnosis Chiado Testnet',
-  }];
-  
-
+    rpcUrls: ["https://rpc.chiadochain.net"],
+    vanityName: "Gnosis Chiado Testnet",
+  },
+];
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -44,22 +58,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <DynamicContextProvider
-        settings={{
-          appLogoUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/3/34/Examplelogo.svg',
-          appName: 'Gnosis App',
-    
-          overrides: { evmNetworks },
-          environmentId: "b073a893-929a-4ff4-8bb6-7cd8c8db2721",
-          walletConnectors: [EthereumWalletConnectors],
-        }}
-      >
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
-      </DynamicContextProvider>
+      <body>
+        <DynamicContextProvider
+          settings={{
+            appLogoUrl:
+              "https://upload.wikimedia.org/wikipedia/commons/3/34/Examplelogo.svg",
+            appName: "Gnosis App",
+
+            overrides: { evmNetworks },
+            environmentId: "b073a893-929a-4ff4-8bb6-7cd8c8db2721",
+            walletConnectors: [EthereumWalletConnectors],
+          }}
+        >
+          <div className={inter.className}>
+            <Header />
+            {children}
+          </div>
+        </DynamicContextProvider>
+      </body>
     </html>
   );
 }
+
