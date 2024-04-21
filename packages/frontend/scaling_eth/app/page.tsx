@@ -119,7 +119,7 @@ export default function Home() {
           className="text-2xl md:text-4xl lg:text-7xl text-black font-bold inter-var text-center mt-12"
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.1 ,ease: "easeInOut"}}
         >
           WitnessBase
         </motion.p>
@@ -127,7 +127,7 @@ export default function Home() {
           className="text-base md:text-lg mt-4 text-black font-normal inter-var text-center"
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.1 ,ease: "easeInOut"}}
         >
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
@@ -158,7 +158,7 @@ export default function Home() {
               }}
               initial="hidden"
               animate={mainControls1}
-              transition={{ duration: 1.5, delay: 0.5 }}
+              transition={{ duration: 1.5,  delay: 0.1 ,ease: "easeInOut" }}
             >
               <Image
                 className="rounded-3xl"
@@ -191,7 +191,7 @@ export default function Home() {
               }}
               initial="hidden"
               animate={mainControls2}
-              transition={{ duration: 1.5, delay: 0.5 }}
+              transition={{ duration: 1.5,  delay: 0.1 ,ease: "easeInOut" }}
             >
               <p className="w-[450px] text-xl font-normal text-center pt-12 flex flex-col">
                 <span className="font-bold mb-4">
@@ -220,7 +220,7 @@ export default function Home() {
               }}
               initial="hidden"
               animate={mainControls3}
-              transition={{ duration: 1.5, delay: 0.5 }}
+              transition={{ duration: 1.5,  delay: 0.1 ,ease: "easeInOut" }}
             >
               <Image
                 className="rounded-3xl"
