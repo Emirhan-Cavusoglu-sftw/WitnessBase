@@ -39,7 +39,7 @@ const CreateYourDesignStamp = () => {
   const [proofDescription, setProofDescription] = useState("");
   const [fileDataUrls, setFileDataUrls] = useState([]);
   const [ipfsUrl, setIpfsUrl] = useState(null);
-
+  const [attestCompleted, setAttestCompleted] = useState(false);
   const { user, primaryWallet } = useDynamicContext();
   const [accountAddress, setaccountAddress] = useState<Hex>();
   const [TSDcards, setTSDcards] = useState([]);
@@ -190,12 +190,14 @@ const CreateYourDesignStamp = () => {
       console.log(`AttestOperation included: ${attestTxHash}`);
 
       // Display success message
+
       setMessage("PDF uploaded to Pinata successfully!");
     } catch (error) {
       console.error("Error:", error);
       setMessage("Error creating and uploading PDF. Please try again.");
     } finally {
       setIsLoading(false);
+      setAttestCompleted(true);
     }
   };
   const getTSD = async () => {
@@ -292,6 +294,17 @@ const CreateYourDesignStamp = () => {
           >
             {isLoading ? "Loading..." : "Submit"}
           </button>
+          {attestCompleted && (
+            <Link
+              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
+                View Attestation
+              </button>
+            </Link>
+          )}
         </div>
       </form>
       {/* <PDFDownloadLink document={<MyDocument proofName={proofName} proofDescription={proofDescription} images={fileURLs} />} fileName="TSD.pdf" className="flex justify-center">
