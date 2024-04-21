@@ -16,7 +16,6 @@ contract Account is IAccount {
     string public userName = "Emojan";
     TSD public tsd;
     address[] public tsds;
-    
 
     event Log(string message);
 
@@ -38,17 +37,12 @@ contract Account is IAccount {
         string memory _projectDescription,
         string memory _dataURI
     ) public {
-        tsd = new TSD(
-            userName,
-            _projectName,
-            _projectDescription,
-            _dataURI
-        );
+        tsd = new TSD(userName, _projectName, _projectDescription, _dataURI);
         tsds.push(address(tsd));
         tsdCounter++;
     }
 
-    function attestTSD()  external returns (uint64){
+    function attestTSD() external returns (uint64) {
         Attestation memory a = Attestation({
             schemaId: 3,
             linkedAttestationId: 0,
@@ -62,20 +56,27 @@ contract Account is IAccount {
             data: abi.encode("exp")
         });
 
-       uint64 attestationId =  spInstance.attest(a, "", "", "");
-       return attestationId;
+        uint64 attestationId = spInstance.attest(a, "", "", "");
+        return attestationId;
     }
 }
 
 contract AccountFactory {
     event AccountCreated(address account, address owner);
+    address[] public accounts;
+    mapping(address => address) public ownerToAccount;
+    mapping(address => bool) public hasAccount;
 
     function createAccount(
         address owner,
         string memory userName
     ) public returns (address) {
+        require(!hasAccount[owner], "Account already exists");
         Account account = new Account(owner, userName);
         emit AccountCreated(address(account), owner);
+        accounts.push(address(account));
+        ownerToAccount[owner] = address(account);
+
         return address(account);
     }
 }
