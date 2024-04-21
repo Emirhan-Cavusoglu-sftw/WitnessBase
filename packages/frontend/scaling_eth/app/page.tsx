@@ -30,7 +30,7 @@ import { get } from "http";
 
 export default function Home() {
   const { user, primaryWallet } = useDynamicContext();
-  const [hasAccount, setHasAccount] = useState<boolean>();
+  const [hasAccount, setHasAccount] =  useState<boolean>();
 
   const { ref: ref1, inView: inView1 } = useInView({
     triggerOnce: false,
