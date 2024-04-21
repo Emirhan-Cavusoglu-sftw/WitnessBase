@@ -298,30 +298,19 @@ const CreateYourDesignStamp = () => {
           </button>
         </div>
       </form>
-      {attestCompleted && (
-            <Link
-              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=internal`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
-                View Attestation
-              </button>
-            </Link>
-          )}
-      {/* <PDFDownloadLink document={<MyDocument proofName={proofName} proofDescription={proofDescription} images={fileURLs} />} fileName="TSD.pdf" className="flex justify-center">
-        {({ loading }) =>
-          loading ? (
-            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
-              Loading Document...
+      <div className="flex items-center justify-center text-center m-4">
+        {attestCompleted && (
+          <Link
+            href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=internal`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
+              View Attestation
             </button>
-          ) : (
-            <button className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
-              Download
-            </button>
-          )
-        }
-      </PDFDownloadLink> */}
+          </Link>
+        )}
+      </div>
       <div className="flex justify-center">
         {ipfsUrl && (
           <Link href={ipfsUrl} download>
