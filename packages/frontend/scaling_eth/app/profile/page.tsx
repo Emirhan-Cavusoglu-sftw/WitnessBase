@@ -20,11 +20,13 @@ import {
 import { Hex, parseEther, parseUnits } from "viem";
 import { entryPointABI } from "../utils/constants";
 import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
+import { get } from "http";
 
 const Profile = () => {
   const { user, primaryWallet } = useDynamicContext();
   const [accountAddress, setaccountAddress] = useState<Hex>();
   const [TSDcards, setTSDcards] = useState([]);
+  const [rendered,setRendered] = useState(false);
 
   useEffect(() => {
     const fetchAccountAddress = async () => {
@@ -38,6 +40,7 @@ const Profile = () => {
       }
     };
     fetchAccountAddress();
+    console.log(rendered);
   }, [primaryWallet]);
 
   const getAccountAddress = async () => {
@@ -63,29 +66,40 @@ const Profile = () => {
   const consoleAccount = async () => {
     console.log(account);
   };
-
+  
+  
   const getTSD = async () => {
-    const accountContract = await getAccountContract(accountAddress);
+    const address = primaryWallet?.address;
+   
 
-    const tsdCount = await accountContract.read.tsdCounter();
-
-    const newTSDcards = [];
-    for (let i = 0; i < tsdCount; i++) {
-      const tsd = await accountContract.read.tsds([i]);
-      const tsdContract = await getTSDContract(tsd);
-      const proofName = await tsdContract.read.projectName();
-      const userName = await tsdContract.read.userName();
-      const ipfsUrl = await tsdContract.read.dataURI();
-      newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
-    }
-
-    const tsdd = await accountContract.read.tsds([0]);
-    const tsdContract = await getTSDContract(tsdd);
-    let ipfsUrl = await tsdContract.read.dataURI();
-    console.log(ipfsUrl);
-    setTSDcards(newTSDcards);
-    console.log(newTSDcards);
+      const accountContract = await getAccountContract(accountAddress);
+      
+      const tsdCount = await accountContract.read.tsdCounter();
+      
+      const newTSDcards = [];
+      for (let i = 0; i < tsdCount; i++) {
+        const tsd = await accountContract.read.tsds([i]);
+        const tsdContract = await getTSDContract(tsd);
+        const proofName = await tsdContract.read.projectName();
+        const userName = await tsdContract.read.userName();
+        const ipfsUrl = await tsdContract.read.dataURI();
+        newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
+      }
+      
+      const tsdd = await accountContract.read.tsds([BigInt(tsdCount)-BigInt(1)]);
+      const tsdContract = await getTSDContract(tsdd);
+      let ipfsUrl = await tsdContract.read.dataURI();
+      console.log(ipfsUrl);
+      console.log(tsdCount);
+      setTSDcards(newTSDcards);
+      console.log(newTSDcards);
+    
   };
+
+  
+  
+  
+  
 
   return (
     <main className="flex flex-col space-y-48 ">

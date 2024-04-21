@@ -120,7 +120,7 @@ const CreateYourDesignStamp = () => {
       const pdfBlob = await pdf(pdfDocument).toBlob();
 
       // Upload PDF to Pinata
-      await uploadPDFToPinata(pdfBlob);
+      const ipfsUrl = await uploadPDFToPinata(pdfBlob);
 
       let accountContract = await getAccountContract(accountAddress);
 
@@ -222,6 +222,7 @@ const CreateYourDesignStamp = () => {
       const pdfUploadResponse = await uploadFileToIPFS(pdfBlob);
       console.log("PDF uploaded to Pinata:", pdfUploadResponse.pinataURL);
       setIpfsUrl(pdfUploadResponse.pinataURL);
+      return pdfUploadResponse.pinataURL;
       // Burada PDF'nin Pinata'ya yüklendiğini bildiren bir mesaj gösterebilirsiniz.
     } catch (error) {
       console.error("Error uploading PDF to Pinata:", error);
