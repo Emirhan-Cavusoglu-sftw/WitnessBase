@@ -109,7 +109,7 @@ export const Header = () => {
           </svg>
         </motion.button> */}
 
-        <div className="w-52  h-[3.5rem] p-4">
+        <div className="w-52  h-[3.5rem] p-4 " >
           <DynamicWidget />
         </div>
 

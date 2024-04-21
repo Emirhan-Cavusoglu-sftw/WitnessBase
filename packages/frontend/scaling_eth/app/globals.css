@@ -82,14 +82,14 @@ body {
     --dynamic-wallet-list-tile-background-hover: #fff;
     --dynamic-wallet-list-tile-border-hover: 2px solid #000000;
     --dynamic-wallet-list-tile-shadow-hover: 0px 3px 0px #000000;
-    --dynamic-connect-button-background: #fff;
+    --dynamic-connect-button-background: #ffffffc4;
     --dynamic-connect-button-color: #000;
-    --dynamic-connect-button-border: 2px solid #000;
-    --dynamic-connect-button-shadow: 0px 3px 0px #fff;
-    --dynamic-connect-button-background-hover: rgba(22, 37, 77, 0.03);
+    --dynamic-connect-button-border: 0px solid #000;
+    --dynamic-connect-button-shadow: -3px 3px 0px 0px #000;
+    --dynamic-connect-button-background-hover: rgba(52, 233, 203, 0.945);
     --dynamic-connect-button-color-hover: #000;
-    --dynamic-connect-button-border-hover: 2px solid #000;
-    --dynamic-connect-button-shadow-hover: 0px 3px 0px #000000;
+    --dynamic-connect-button-border-hover: 1px solid #000;
+    --dynamic-connect-button-shadow-hover: 0px 0px 0px #000000;
     --dynamic-tooltip-color: #000;
     --dynamic-tooltip-text-color: #fff;
   }
