@@ -134,7 +134,7 @@ const Profile = () => {
             />
           </svg>
         </div>
-        <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
+        {/* <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
           <button className="font-bold text-xl" onClick={() => fundAccount()}>
             fund your account
           </button>
@@ -146,7 +146,7 @@ const Profile = () => {
           >
             fund your account
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="relative mt-24 ">
