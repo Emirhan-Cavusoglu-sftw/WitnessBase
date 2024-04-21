@@ -8,7 +8,7 @@ const NFTCard = () => {
   // const data = GetIpfsUrlFromPinata(ipfsUrl);
   return (
     <div className="flex flex-col justify-center items-center text-center relative">
-      <Link href={"/tsdInfoPage"}>
+      
         <Image
           src={"/pixelScrolll.png"}
           alt="Scroll"
@@ -19,7 +19,7 @@ const NFTCard = () => {
         <div className="absolute center">
           {/* <p className="text-bold ">Proof name:{data.proofname}</p> */}
         </div>
-      </Link>
+      
     </div>
   );
 };

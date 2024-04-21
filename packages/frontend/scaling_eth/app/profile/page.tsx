@@ -4,6 +4,7 @@ import NFTCard from "../components/NFTCard";
 import Image from "next/image";
 import TSDInfoCard from "../components/TSDInfoCard";
 import { accountContract, getTSDContract } from "../utils/helper";
+import motion from "framer-motion";
 
 const Profile = () => {
   const [TSDcards, setTSDcards] = useState([]);
@@ -18,11 +19,13 @@ const Profile = () => {
     for (let i = 0; i < 3; i++) {
       const tsd = await accountContract.read.tsds([i]);
       const tsdContract = await getTSDContract(tsd);
+      const proofName = await tsdContract.read.projectName();
       const userName = await tsdContract.read.userName();
-      ipfsUrl = await tsdContract.read.dataURI()
-      newTSDcards.push({ ...tsd, userName });
+      ipfsUrl = await tsdContract.read.dataURI();
+      newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName});
       console.log(tsd);
-      console.log(userName)
+      console.log(userName);
+      console.log(proofName);
     }
     
     console.log(url)
@@ -34,9 +37,8 @@ const Profile = () => {
   };
 
 
-
   return (
-    <main className="flex flex-col space-y-48">
+    <main className="flex flex-col space-y-48 ">
       <div className="flex flex-col space-y-4 mt-12">
         <div className="flex flex-row bg-orange-400 h-[50px] w-[680px] ml-12 justify-center items-center text-center rounded-2xl">
           <h1 className="font-bold text-2xl">
@@ -87,7 +89,16 @@ const Profile = () => {
         <div className="absolute top-8 right-[60px]">
           <NFTCard />
         </div>
+        <div className="absolute top-0 right-[800px]">
+          <NFTCard />
+        </div>
         <div className="absolute -bottom-10 left-[560px]">
+          <NFTCard />
+        </div>
+        <div className="absolute -bottom-10 right-[300px] ">
+          <NFTCard />
+        </div>
+        <div className="absolute -bottom-12 right-[700px] ">
           <NFTCard />
         </div>
       </div>
@@ -102,13 +113,14 @@ const Profile = () => {
 
         <div className="flex justify-center flex-col items-center space-y-5 ">
           <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
-          <div className="flex justify-center flex-wrap space-x-10 ml-12">
+          <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10">
             {TSDcards.map((tsd, index) => {
               return (
                 <TSDInfoCard
                   key={index}
                   ipfsUrl={tsd.ipfsUrl}
                   userName={tsd.userName}
+                  proofName={tsd.proofName}
                 />
               );
             })}
