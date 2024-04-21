@@ -179,20 +179,20 @@ const Profile = () => {
       </div>
 
       <div className="space-y-24">
-        <button
-          className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+        <div className="flex justify-center items-center"><button
+          className="flex justify-center  h-[3.5rem] w-64 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
           onClick={() => getTSD()}
         >
-          BAS
-        </button>
-        <button
+          Show Your TSDs
+        </button></div>
+        {/* <button
           className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
           onClick={() => getAccountAddress()}
         >
           BAS
-        </button>
+        </button> */}
 
-        <div className="flex justify-center flex-col items-center space-y-5 ">
+        <div className="flex justify-center flex-col items-center space-y-5 mr-12 ">
           <h1 className="font-bold text-4xl ml-12 mb-14">Registrations</h1>
           <div className="flex justify-center flex-wrap space-x-10 ml-12 pb-10">
             {TSDcards.map((tsd, index) => {
