@@ -9,21 +9,21 @@ import {
   EthereumWalletConnectors,
 } from "../lib/dynamic";
 
-type evmNetworks = {
-  blockExplorerUrls: string[];
-    chainId: number;
-    chainName: string;
-    iconUrls: string[];
-    name: string;
-    nativeCurrency: {
-        decimals: number;
-        name: string;
-        symbol: string;
-    };
-    networkId: number;
-    rpcUrls: string[];
-    vanityName: string;
-};
+// type evmNetworks = {
+//   blockExplorerUrls: string[];
+//     chainId: number;
+//     chainName: string;
+//     iconUrls: string[];
+//     name: string;
+//     nativeCurrency: {
+//         decimals: number;
+//         name: string;
+//         symbol: string;
+//     };
+//     networkId: number;
+//     rpcUrls: string[];
+//     vanityName: string;
+// };
 
 
 const inter = Inter({ subsets: ["latin"] });

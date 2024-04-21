@@ -28,6 +28,7 @@ const PDFDownloadLink = dynamic(
 );
 
 const CreateYourDesignStamp = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
@@ -47,7 +48,7 @@ const CreateYourDesignStamp = () => {
     const fetchAccountAddress = async () => {
       const address = primaryWallet?.address;
       console.log(address);
-      if(address){
+      if (address) {
         const userAccountAddress = await factoryContract.read.ownerToAccount([
           address,
         ]);
@@ -101,6 +102,7 @@ const CreateYourDesignStamp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       setMessage("Creating PDF... Please wait.");
 
@@ -192,6 +194,8 @@ const CreateYourDesignStamp = () => {
     } catch (error) {
       console.error("Error:", error);
       setMessage("Error creating and uploading PDF. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
   const getTSD = async () => {
@@ -283,10 +287,10 @@ const CreateYourDesignStamp = () => {
           ></textarea>
           <button
             className="h-10 w-40 bg-gray-200 rounded-lg text-center border border-black border-l-4 border-b-4 font-bold"
-            disabled={!enableButton}
+            disabled={!enableButton || isLoading} // Disable the button if the form is being submitted
             type="submit"
           >
-            Submit
+            {isLoading ? "Loading..." : "Submit"}
           </button>
         </div>
       </form>
