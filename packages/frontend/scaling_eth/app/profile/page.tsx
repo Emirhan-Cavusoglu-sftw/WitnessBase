@@ -22,26 +22,24 @@ const Profile = () => {
   const [TSDcards, setTSDcards] = useState([]);
 
   useEffect(() => {
-    const address = primaryWallet?.address;
-    const getAccountAddress = async () => {
-      const userAccountAddress = await factoryContract.read.ownerToAccount([
-        "0x633aDfb3430b96238c9FB7026195D1d5b0889EA6",
-      ]);
-      setaccountAddress(userAccountAddress as Hex);
+    const fetchAccountAddress = async () => {
+      const address = primaryWallet?.address;
+      
+        const userAccountAddress = await factoryContract.read.ownerToAccount([
+          address,
+        ]);
+        setaccountAddress(userAccountAddress as Hex);
+      
     };
-    setTimeout(() => {
-      getAccountAddress();
-    }, 2000);
-
-    console.log(primaryWallet?.address);
-    console.log(accountAddress);
-  }, []);
+  
+    fetchAccountAddress();
+  }, [primaryWallet]);
 
   const getAccountAddress = async () => {
-    const userAccountAddress = await factoryContract.read.ownerToAccount([
-      primaryWallet?.address,
-    ]);
-    console.log(userAccountAddress);
+    // const userAccountAddress = await factoryContract.read.ownerToAccount([
+    //   primaryWallet?.address,
+    // ]);
+    console.log(accountAddress);
   };
   const getTSD = async () => {
     const tsdContract = await getTSDContract(
@@ -73,7 +71,7 @@ const Profile = () => {
       <div className="flex flex-col space-y-4 mt-12">
         <div className="flex flex-row bg-orange-400 h-[50px] w-[680px] ml-12 justify-center items-center text-center rounded-2xl">
           <h1 className="font-bold text-2xl">
-            0x5167e9746264C5820f5B5741461EC2c2f1FdDA0f
+            Your Smart Account: {accountAddress ? accountAddress : "Account Address"}
           </h1>
           <svg
             width="30px"
