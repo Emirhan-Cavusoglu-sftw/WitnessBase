@@ -13,6 +13,7 @@ import {
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 
 export default function Home() {
+  const {user,primaryWallet} = useDynamicContext();
   const { ref: ref1, inView: inView1 } = useInView({
     triggerOnce: false,
     threshold: 0.05,
@@ -76,8 +77,8 @@ export default function Home() {
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
         </motion.p>
-        <div>
-          
+        <div className="bg-white w-11 h-8 to-black">
+          {primaryWallet?.address}
         </div>
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">

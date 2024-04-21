@@ -51,7 +51,7 @@ import {
   const endpointUrl =
     "https://api.pimlico.io/v2/10200/rpc?apikey=382125ba-467a-4a7a-8ac8-05dae90d873b";
   
-  const AF_ADDRESS = "0xF09A009c2a7e62927B9E55Ec46ADA64884458015";
+  const AF_ADDRESS = "0x5CD0A53ba1A9be4e092C3a7f073c43d0F1792A7E";
   
   // export const wallet = privateKeyToAccount(
   //   `0x${process.env.NEXT_PUBLIC_PAYMASTER_PRIVATE_KEY}`

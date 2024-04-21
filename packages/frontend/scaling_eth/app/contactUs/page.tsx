@@ -48,7 +48,6 @@ import {
   calculateSenderAddress,
   getGasPrice,
   paymaster,
-  
 } from "../utils/helper";
 import { useReadContract } from "wagmi";
 import { readContract } from "@wagmi/core";
@@ -79,40 +78,9 @@ const contactUs = async () => {
     }, 6000);
   };
 
-  
-
   const executeUserOperation = async () => {
     let gasPrice = await getGasPrice();
     const senderAddress = await calculateSenderAddress();
-    // const creationOperationHash = await bundlerClient.sendUserOperation({
-    //   userOperation: {
-    //     sender: senderAddress,
-    //     nonce: BigInt(0),
-    //     factory: factory,
-    //     factoryData: factoryData,
-    //     callData: "0x",
-    //     maxFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-    //     maxPriorityFeePerGas: BigInt(gasPrice.fast.maxPriorityFeePerGas),
-    //     paymasterVerificationGasLimit: BigInt(1000000),
-    //     signature: "0x" as Hex,
-    //     callGasLimit: BigInt(1_000_000),
-    //     verificationGasLimit: BigInt(1_000_000),
-    //     preVerificationGas: BigInt(1_000_000),
-    //   },
-    // });
-
-    // console.log("Received Create Operation hash:" + creationOperationHash);
-
-    // console.log("Querying for receipts...");
-    // const createOP = await bundlerClient.waitForUserOperationReceipt({
-    //   hash: creationOperationHash,
-    // });
-
-    // const hash = createOP.receipt.transactionHash;
-
-    // console.log(`CreateOP included: ${hash}`);
-
-    
 
     const userOperationHash = await bundlerClient.sendUserOperation({
       userOperation: {
@@ -128,7 +96,6 @@ const contactUs = async () => {
         callGasLimit: BigInt(2_000_000),
         verificationGasLimit: BigInt(2_000_000),
         preVerificationGas: BigInt(2_000_000),
-        
       },
     });
 
@@ -203,8 +170,6 @@ const contactUs = async () => {
 
     console.log(`AttestOperation included: ${attestTxHash}`);
   };
-
-  
 
   return (
     <div>
