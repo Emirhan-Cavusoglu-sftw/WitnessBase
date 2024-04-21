@@ -76,6 +76,7 @@ contract AccountFactory {
         emit AccountCreated(address(account), owner);
         accounts.push(address(account));
         ownerToAccount[owner] = address(account);
+        hasAccount[owner] = true;
 
         return address(account);
     }
