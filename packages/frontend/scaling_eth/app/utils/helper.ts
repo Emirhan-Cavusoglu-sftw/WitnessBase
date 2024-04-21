@@ -26,6 +26,7 @@ import {
   http,
   parseEther,
   getContract,
+  custom,
 } from "viem";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import { gnosisChiado } from "viem/chains";
@@ -63,6 +64,11 @@ const AF_ADDRESS = "0x5CD0A53ba1A9be4e092C3a7f073c43d0F1792A7E";
 //   transport: http(window.ethereum ? window.ethereum : endpointUrl),
 // });
 
+export const walletClient = createWalletClient({
+    chain: gnosisChiado,
+    transport:custom(window.ethereum)
+  })
+// export const [account] = await walletClient.getAddresses()
 export const publicClient = createPublicClient({
   transport: http("https://rpc.chiadochain.net"),
   chain: gnosisChiado,
@@ -103,7 +109,9 @@ export const entryPointContract = getContract({
   address: "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
   abi: entryPointABI,
   client: publicClient,
+  
 });
+
 // export const accountContract = getContract({
 //   address: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
 //   abi: accountABI,

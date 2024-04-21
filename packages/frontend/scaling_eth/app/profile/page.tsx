@@ -4,9 +4,14 @@ import NFTCard from "../components/NFTCard";
 import Image from "next/image";
 import TSDInfoCard from "../components/TSDInfoCard";
 import {
-  accountContract,
+  
   getTSDContract,
   factoryContract,
+  entryPointContract,
+  getAccountContract,
+  
+  publicClient,
+  walletClient
 } from "../utils/helper";
 import motion from "framer-motion";
 import {
@@ -14,7 +19,9 @@ import {
   DynamicWidget,
   useDynamicContext,
 } from "@dynamic-labs/sdk-react-core";
-import { Hex } from "viem";
+import { Hex, parseEther, parseUnits } from "viem";
+import { entryPointABI } from "../utils/constants";
+import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
 
 const Profile = () => {
   const { user, primaryWallet } = useDynamicContext();
@@ -25,12 +32,13 @@ const Profile = () => {
     const fetchAccountAddress = async () => {
       const address = primaryWallet?.address;
 
-      const userAccountAddress = await factoryContract.read.ownerToAccount([
-        address,
-      ]);
-      setaccountAddress(userAccountAddress as Hex);
+      if(address){
+        const userAccountAddress = await factoryContract.read.ownerToAccount([
+          address,
+        ]);
+        setaccountAddress(userAccountAddress as Hex);
+      }
     };
-
     fetchAccountAddress();
   }, [primaryWallet]);
 
@@ -40,7 +48,25 @@ const Profile = () => {
     // ]);
     console.log(accountAddress);
   };
+  const fundAccount = async () => {
+    // const fund = await entryPointContract.write.depositTo([accountAddress],parseEther("0.01"));
+    // console.log(fund);
+    const { request } = await publicClient.simulateContract({
+      account: primaryWallet?.address,
+      address: ENTRYPOINT_ADDRESS_V07,
+      abi: entryPointABI,
+      functionName: 'depositTo',
+      args: [accountAddress],
+      value: parseEther("0.2"),
+    })
+    const fund =await walletClient.writeContract(request)
+    console.log(fund)
+  }
+  const consoleAccount = async () => {
+    console.log(account)
+  }
   const getTSD = async () => {
+    const accountContract = await getAccountContract(accountAddress);
     const tsdContract = await getTSDContract(
       "0x858aEbFd12cB7fFd470516bAE1De5B12617b7d37"
     );
@@ -99,7 +125,10 @@ const Profile = () => {
           </svg>
         </div>
         <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
-          <h1 className="font-bold text-xl">Total Registration: 3</h1>
+          <button className="font-bold text-xl" onClick={()=>fundAccount()}>fund your account</button>
+        </div>
+        <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
+          <button className="font-bold text-xl" onClick={()=>consoleAccount()}>fund your account</button>
         </div>
       </div>
 
