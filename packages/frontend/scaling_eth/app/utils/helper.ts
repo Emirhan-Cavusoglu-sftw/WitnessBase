@@ -110,6 +110,12 @@ export const accountContract = getContract({
   client: publicClient,
 });
 
+export const factoryContract = getContract({
+  address: AF_ADDRESS,
+  abi: accountFactoryABI,
+  client: publicClient,
+});
+
 // HELPER FUNCTIONS
 export const getFactoryData = async (address: any, alias: any) => {
   const factoryData = encodeFunctionData({
@@ -137,6 +143,8 @@ export const getTSDContract = async (address: any) => {
   });
   return tsdContract;
 };
+
+
 
 export const getGasPrice = async () => {
   const gasPrice = await bundlerClient.getUserOperationGasPrice();

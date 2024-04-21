@@ -1,20 +1,54 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import NFTCard from "../components/NFTCard";
 import Image from "next/image";
 import TSDInfoCard from "../components/TSDInfoCard";
-import { accountContract, getTSDContract } from "../utils/helper";
+import {
+  accountContract,
+  getTSDContract,
+  factoryContract,
+} from "../utils/helper";
 import motion from "framer-motion";
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+  useDynamicContext,
+} from "@dynamic-labs/sdk-react-core";
+import { Hex } from "viem";
 
 const Profile = () => {
+  const { user, primaryWallet } = useDynamicContext();
+  const [accountAddress, setaccountAddress] = useState<Hex>();
   const [TSDcards, setTSDcards] = useState([]);
 
-  const getTSD = async () => {
+  useEffect(() => {
+    const address = primaryWallet?.address;
+    const getAccountAddress = async () => {
+      const userAccountAddress = await factoryContract.read.ownerToAccount([
+        "0x633aDfb3430b96238c9FB7026195D1d5b0889EA6",
+      ]);
+      setaccountAddress(userAccountAddress as Hex);
+    };
+    setTimeout(() => {
+      getAccountAddress();
+    }, 2000);
 
-    
-    const tsdContract = await getTSDContract("0x858aEbFd12cB7fFd470516bAE1De5B12617b7d37");
+    console.log(primaryWallet?.address);
+    console.log(accountAddress);
+  }, []);
+
+  const getAccountAddress = async () => {
+    const userAccountAddress = await factoryContract.read.ownerToAccount([
+      primaryWallet?.address,
+    ]);
+    console.log(userAccountAddress);
+  };
+  const getTSD = async () => {
+    const tsdContract = await getTSDContract(
+      "0x858aEbFd12cB7fFd470516bAE1De5B12617b7d37"
+    );
     const url = await tsdContract.read.dataURI();
-    let ipfsUrl
+    let ipfsUrl;
     const newTSDcards = [];
     for (let i = 0; i < 3; i++) {
       const tsd = await accountContract.read.tsds([i]);
@@ -22,20 +56,17 @@ const Profile = () => {
       const proofName = await tsdContract.read.projectName();
       const userName = await tsdContract.read.userName();
       ipfsUrl = await tsdContract.read.dataURI();
-      newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName});
+      newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
       console.log(tsd);
       console.log(userName);
       console.log(proofName);
     }
-    
-    console.log(url)
+
+    console.log(url);
     console.log(ipfsUrl);
     setTSDcards(newTSDcards);
     console.log(newTSDcards);
-    
-    
   };
-
 
   return (
     <main className="flex flex-col space-y-48 ">
@@ -107,6 +138,12 @@ const Profile = () => {
         <button
           className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
           onClick={() => getTSD()}
+        >
+          BAS
+        </button>
+        <button
+          className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
+          onClick={() => getAccountAddress()}
         >
           BAS
         </button>
