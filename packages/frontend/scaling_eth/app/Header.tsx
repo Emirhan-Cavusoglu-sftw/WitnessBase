@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import path from "path";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -17,7 +17,7 @@ export const Header = () => {
 
   return (
     <header className="z-[999] sticky top-0">
-      <div className="flex flex-row justify-center space-x-10">
+      <div className="flex flex-row justify-center items-center text-center space-x-10">
         <motion.div
           className="flex justify-center items-center mt-6 h-[3.5rem] w-[60rem]
         rounded-xl border border-black border-l-4 border-b-4 bg-white
@@ -81,7 +81,6 @@ export const Header = () => {
           </div>
         </motion.div>
 
-        <ConnectButton label="Sign in" accountStatus="address" chainStatus="icon" showBalance={false} />
         {/* <motion.button
           className="flex mt-6 h-[3.5rem] w-[3.5rem] rounded-xl bg-white bg-opacity-80 justify-center items-center 
         border border-black border-l-4 border-b-4"
@@ -109,6 +108,10 @@ export const Header = () => {
             </g>
           </svg>
         </motion.button> */}
+
+        <div className="w-52  h-[3.5rem] p-4">
+          <DynamicWidget />
+        </div>
 
         <Link href={"/profile"}>
           <motion.button

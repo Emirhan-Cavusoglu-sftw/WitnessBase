@@ -4,6 +4,13 @@ import { WavyBackground } from "./components/wavy-background";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Provider from "./components/dy-provider";
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+  useDynamicContext,
+} from "@dynamic-labs/sdk-react-core";
+import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 
 export default function Home() {
   const { ref: ref1, inView: inView1 } = useInView({
@@ -69,6 +76,9 @@ export default function Home() {
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
         </motion.p>
+        <div>
+          
+        </div>
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">
             <motion.div

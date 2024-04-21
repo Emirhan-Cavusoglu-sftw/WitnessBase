@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "./Header";
-import Footer from "./components/Footer"
-import { Providers } from "./components/connect-provider";
-import '@rainbow-me/rainbowkit/styles.css';
+import Footer from "./components/Footer";
+import "@rainbow-me/rainbowkit/styles.css";
+import Provider from "./components/dy-provider";
+import {
+  DynamicContextProvider,
+  EthereumWalletConnectors,
+} from "../lib/dynamic";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,18 +20,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <Providers>
-        <Header />
-        {children}
-        
-      </Providers>
+      <DynamicContextProvider
+        settings={{
+          environmentId: "b073a893-929a-4ff4-8bb6-7cd8c8db2721",
+          walletConnectors: [EthereumWalletConnectors],
+        }}
+      >
+        <body className={inter.className}>
+          <Header />
+          {children}
         </body>
+      </DynamicContextProvider>
     </html>
   );
 }
