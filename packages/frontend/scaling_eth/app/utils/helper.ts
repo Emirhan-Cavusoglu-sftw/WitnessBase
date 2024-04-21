@@ -104,11 +104,11 @@ export const entryPointContract = getContract({
   abi: entryPointABI,
   client: publicClient,
 });
-export const accountContract = getContract({
-  address: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
-  abi: accountABI,
-  client: publicClient,
-});
+// export const accountContract = getContract({
+//   address: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
+//   abi: accountABI,
+//   client: publicClient,
+// });
 
 export const factoryContract = getContract({
   address: AF_ADDRESS,
@@ -134,6 +134,16 @@ export const getCreateTSD = async (proofName, proofDescription, ipfsUrl) => {
   });
   return createTSD;
 };
+
+export const getAccountContract = async (address: any) => {
+    const accountContract = getContract({
+        address: address,
+        abi: accountABI,
+        client: publicClient,
+    });
+    return accountContract;
+    
+}
 
 export const getTSDContract = async (address: any) => {
   const tsdContract = getContract({
