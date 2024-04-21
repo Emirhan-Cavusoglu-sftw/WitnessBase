@@ -159,7 +159,6 @@ const CreateYourDesignStamp = () => {
       const txHash = receipt.receipt.transactionHash;
 
       console.log(`UserOperation included: ${txHash}`);
-      
 
       gasPrice = await getGasPrice();
 
@@ -188,7 +187,7 @@ const CreateYourDesignStamp = () => {
       });
 
       const attestTxHash = attestReceipt.receipt.transactionHash;
-      
+
       console.log(`AttestOperation included: ${attestTxHash}`);
       setAttestTxHash(attestTxHash);
 
@@ -297,9 +296,11 @@ const CreateYourDesignStamp = () => {
           >
             {isLoading ? "Loading..." : "Submit"}
           </button>
-          {attestCompleted && (
+        </div>
+      </form>
+      {attestCompleted && (
             <Link
-              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=logs`}
+              href={`https://gnosis-chiado.blockscout.com/tx/${attestTxHash}?tab=internal`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -308,9 +309,6 @@ const CreateYourDesignStamp = () => {
               </button>
             </Link>
           )}
-          
-        </div>
-      </form>
       {/* <PDFDownloadLink document={<MyDocument proofName={proofName} proofDescription={proofDescription} images={fileURLs} />} fileName="TSD.pdf" className="flex justify-center">
         {({ loading }) =>
           loading ? (
