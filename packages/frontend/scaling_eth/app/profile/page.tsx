@@ -4,14 +4,12 @@ import NFTCard from "../components/NFTCard";
 import Image from "next/image";
 import TSDInfoCard from "../components/TSDInfoCard";
 import {
-  
   getTSDContract,
   factoryContract,
   entryPointContract,
   getAccountContract,
-  
   publicClient,
-  walletClient
+  walletClient,
 } from "../utils/helper";
 import motion from "framer-motion";
 import {
@@ -32,7 +30,7 @@ const Profile = () => {
     const fetchAccountAddress = async () => {
       const address = primaryWallet?.address;
 
-      if(address){
+      if (address) {
         const userAccountAddress = await factoryContract.read.ownerToAccount([
           address,
         ]);
@@ -55,37 +53,35 @@ const Profile = () => {
       account: primaryWallet?.address,
       address: ENTRYPOINT_ADDRESS_V07,
       abi: entryPointABI,
-      functionName: 'depositTo',
+      functionName: "depositTo",
       args: [accountAddress],
       value: parseEther("0.2"),
-    })
-    const fund =await walletClient.writeContract(request)
-    console.log(fund)
-  }
+    });
+    const fund = await walletClient.writeContract(request);
+    console.log(fund);
+  };
   const consoleAccount = async () => {
-    console.log(account)
-  }
+    console.log(account);
+  };
+
   const getTSD = async () => {
     const accountContract = await getAccountContract(accountAddress);
-    const tsdContract = await getTSDContract(
-      "0x858aEbFd12cB7fFd470516bAE1De5B12617b7d37"
-    );
-    const url = await tsdContract.read.dataURI();
-    let ipfsUrl;
+
+    const tsdCount = await accountContract.read.tsdCounter();
+
     const newTSDcards = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < tsdCount; i++) {
       const tsd = await accountContract.read.tsds([i]);
       const tsdContract = await getTSDContract(tsd);
       const proofName = await tsdContract.read.projectName();
       const userName = await tsdContract.read.userName();
-      ipfsUrl = await tsdContract.read.dataURI();
+      const ipfsUrl = await tsdContract.read.dataURI();
       newTSDcards.push({ ...tsd, userName, ipfsUrl, proofName });
-      console.log(tsd);
-      console.log(userName);
-      console.log(proofName);
     }
 
-    console.log(url);
+    const tsdd = await accountContract.read.tsds([0]);
+    const tsdContract = await getTSDContract(tsdd);
+    let ipfsUrl = await tsdContract.read.dataURI();
     console.log(ipfsUrl);
     setTSDcards(newTSDcards);
     console.log(newTSDcards);
@@ -125,10 +121,17 @@ const Profile = () => {
           </svg>
         </div>
         <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
-          <button className="font-bold text-xl" onClick={()=>fundAccount()}>fund your account</button>
+          <button className="font-bold text-xl" onClick={() => fundAccount()}>
+            fund your account
+          </button>
         </div>
         <div className="flex flex-row bg-orange-400 h-[50px] w-[230px] rounded-2xl ml-12 justify-center items-center text-center">
-          <button className="font-bold text-xl" onClick={()=>consoleAccount()}>fund your account</button>
+          <button
+            className="font-bold text-xl"
+            onClick={() => consoleAccount()}
+          >
+            fund your account
+          </button>
         </div>
       </div>
 

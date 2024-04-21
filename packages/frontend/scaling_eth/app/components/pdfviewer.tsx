@@ -50,7 +50,7 @@ const MyDocument = ({ proofName, proofDescription, images }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.date}>Created on: {formattedDate}</Text>
+        <Text style={styles.date}>Created at: {formattedDate}</Text>
         <View style={styles.container}>
           <Text style={styles.title}>Product Information</Text>
           <Text style={styles.text}>Name: {proofName}</Text>

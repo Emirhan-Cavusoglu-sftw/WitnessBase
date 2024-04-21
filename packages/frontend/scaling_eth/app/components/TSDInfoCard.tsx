@@ -22,7 +22,7 @@ const TSDInfoCard = ({ ipfsUrl,userName, proofName }) => {
         width={450}
       />
       {ipfsUrl && (
-        <Link href={ipfsUrl} download>
+        <Link href={ipfsUrl} download target="_blank">
           <button className="flex justify-center  h-[3.5rem] w-52 rounded-xl bg-gray-200 bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4">
             Download PDF from IPFS
           </button>
