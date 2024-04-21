@@ -172,7 +172,7 @@ export default function Home() {
           WitnessBase: Securing unregistered product designs and enhancing user
           experience with decentralized wallets.
         </motion.p>
-        <div className="bg-white w-11 h-8 to-black">
+         {!hasAccount && (<div className="bg-white w-11 h-8 to-black">
           {primaryWallet?.address}
           <button
             className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
@@ -180,25 +180,14 @@ export default function Home() {
           >
             Create Your Smart Account
           </button>
-          {/* <button
-            className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => getSenderAddress()}
-          >
-            Create Your Smart Account
-          </button>
-          <button
-            className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
-            onClick={() => consoleHasAccount()}
-          >
-            Create Your Smart Account
-          </button> */}
+
           <button
             className="flex justify-center mt-6 h-[3.5rem] w-32 rounded-xl bg-white bg-opacity-80 text-black text-center items-center font-bold border border-black border-l-4 border-b-4"
             onClick={() => fundAccount()}
           >
             Create Your Smart Account
           </button>
-        </div>
+        </div>)}
         <div className="flex mt-[600px] ">
           <div className="flex flex-col space-y-64">
             <motion.div

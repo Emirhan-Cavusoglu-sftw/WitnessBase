@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   container: {
-    flex: 1,
-    justifyContent: "center",
+    flex: 1,  
     alignItems: "center",
+    marginBottom: 20,
   },
   title: {
     fontSize: 18,
@@ -33,20 +33,24 @@ const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 220,
-    marginBottom: 20,
   },
-  pdfLink: {
-    color: "blue",
-    textDecoration: "underline",
-    textAlign: "center",
-    marginTop: 10,
+  date: {
+    position: 'absolute',
+    right: 45,
+    top: 30,
+    fontSize: 12,
+    width: 100,
   },
 });
 
 const MyDocument = ({ proofName, proofDescription, images }) => {
+  const date = new Date();
+  const formattedDate = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <Text style={styles.date}>Created on: {formattedDate}</Text>
         <View style={styles.container}>
           <Text style={styles.title}>Product Information</Text>
           <Text style={styles.text}>Name: {proofName}</Text>
@@ -62,5 +66,3 @@ const MyDocument = ({ proofName, proofDescription, images }) => {
 };
 
 export default MyDocument;
-
-
