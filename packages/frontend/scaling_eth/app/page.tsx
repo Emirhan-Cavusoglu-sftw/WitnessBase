@@ -115,7 +115,7 @@ export default function Home() {
       args: [await calculateSenderAddress(factoryData)],
       value: parseEther("0.2"),
     })
-    const fund =await walletClient.writeContract(request)
+    const fund =await walletClient(window).writeContract(request)
     console.log(fund)
   }
 

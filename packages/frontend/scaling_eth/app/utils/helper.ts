@@ -64,10 +64,12 @@ const AF_ADDRESS = "0xCFE04ae5d264Ea78a6BB38E48b9521789d5BbA8F";
 //   transport: http(window.ethereum ? window.ethereum : endpointUrl),
 // });
 
-export const walletClient = createWalletClient({
+export function walletClient(window: any) {
+  return createWalletClient({
     chain: gnosisChiado,
-    transport:custom(window.ethereum)
+    transport:custom((window as any)?.ethereum)
   })
+}
 // export const [account] = await walletClient.getAddresses()
 export const publicClient = createPublicClient({
   transport: http("https://rpc.chiadochain.net"),
@@ -112,11 +114,11 @@ export const entryPointContract = getContract({
   
 });
 
-// export const accountContract = getContract({
-//   address: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
-//   abi: accountABI,
-//   client: publicClient,
-// });
+export const accountContract = getContract({
+  address: "0x95dcB08D52Fe1D79dd6F6D159C28798D7C4656E9",
+  abi: accountABI,
+  client: publicClient,
+});
 
 export const factoryContract = getContract({
   address: AF_ADDRESS,
